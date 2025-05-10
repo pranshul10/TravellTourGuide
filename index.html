@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Travel Guide - Your Journey Starts Here</title>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <!-- YOUR ORIGINAL style.css - THIS IS THE PRIMARY STYLESHEET -->
+  <link rel="stylesheet" href="style.css"> 
+  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+  <!-- INLINE STYLES: For API Sections and Minor Overrides with INCREASED SPECIFICITY -->
+  <style>
+    /* General Styles for ALL API Sections */
+    body .api-section { /* Increased specificity */
+      padding: 40px 20px;
+      background-color: #0c0c0c !important; /* !important to ensure override if original style.css has general section bg */
+      color: white !important; /* Ensure text color for API section */
+      border-top: 1px solid #333;
+      margin-top: 20px;
+    }
+
+    /* Titles within API sections */
+    body .api-section .container > h3 { /* Increased specificity */
+      text-align: center !important;
+      color: #ff6700 !important; 
+      margin-bottom: 30px !important;
+      font-size: 2.5em !important; 
+      text-transform: uppercase !important;
+      font-weight: 300 !important;
+      padding-left: 0 !important;
+      padding-top: 0 !important;
+      margin-left: 0 !important; 
+      /* Clear any inherited global h3 styles */
+      word-spacing: normal !important;
+    }
+    body .api-section .container > h3:after { /* Increased specificity */
+        display: block !important;
+        height: 2px !important;
+        background-color: #ff6700 !important;
+        content: " " !important;
+        width: 100px !important; 
+        margin: 10px auto 0 !important; 
+        padding-right: 0 !important;
+    }
+
+    /* Form elements within API sections */
+    body .api-section .form-group { margin-bottom: 15px !important; }
+    body .api-section label { color: #ccc !important; font-weight: normal !important; }
+    body .api-section input[type="text"],
+    body .api-section input[type="number"],
+    body .api-section textarea {
+      background-color: #222 !important; 
+      color: white !important; 
+      border: 1px solid #444 !important;
+      border-radius: 4px !important; 
+      padding: 10px !important; 
+      width: 100% !important;
+    }
+    
+    /* Buttons within API sections */
+    body .api-section button, 
+    body .api-section .btn { /* Target general buttons and Bootstrap buttons within API sections */
+      background-color: #ff6700 !important; 
+      color: white !important; 
+      border: none !important;
+      padding: 10px 20px !important; 
+      border-radius: 4px !important; 
+      cursor: pointer !important;
+      transition: background-color 0.3s !important;
+      font-weight: bold !important;
+      text-transform: none !important; /* Override uppercase if global button style has it */
+      font-size: 1em !important; /* Reset font size if global button style changes it */
+    }
+    body .api-section button:hover,
+    body .api-section .btn:hover { 
+        background-color: #e65c00 !important; 
+    }
+
+    /* Specific Bootstrap button overrides if .btn class is used in API section HTML */
+    body .api-section .btn-primary { background-color: #337ab7 !important; border-color: #2e6da4 !important;}
+    body .api-section .btn-primary:hover { background-color: #286090 !important; border-color: #204d74 !important;}
+    body .api-section .btn-info { background-color: #5bc0de !important; border-color: #46b8da !important;}
+    body .api-section .btn-info:hover { background-color: #31b0d5 !important; border-color: #269abc !important;}
+    body .api-section .btn-success { background-color: #5cb85c !important; border-color: #4cae4c !important;}
+    body .api-section .btn-success:hover { background-color: #449d44 !important; border-color: #398439 !important;}
+    body .api-section .btn-warning { background-color: #f0ad4e !important; border-color: #eea236 !important;} 
+    body .api-section .btn-warning:hover { background-color: #ec971f !important; border-color: #d58512 !important;}
+
+    /* Result divs for API sections */
+    body .api-section #weatherResult, 
+    body .api-section #itineraryResult, 
+    body .api-section #distanceResult { /* Increased specificity */
+      margin-top: 20px !important; 
+      padding: 15px !important; 
+      background-color: #1a1a1a !important;
+      border-radius: 4px !important; 
+      border: 1px solid #333 !important;
+      white-space: pre-wrap !important; 
+      word-wrap: break-word !important;
+      min-height: 50px !important; 
+      color: #f0f0f0 !important; /* Default text color for results */
+    }
+     body .api-section #distanceResult { 
+      font-weight: bold !important;
+      color: #ffc107 !important; 
+    }
+    body .api-section #weatherResult p, 
+    body .api-section #itineraryResult p, 
+    body .api-section #distanceResult p { 
+        margin-bottom: 8px !important; 
+        color: inherit !important; /* Inherit from parent result div */
+        font-size: 1em !important; /* Reset font size if global p style is too large/small */
+        text-transform: none !important; /* Reset text transform */
+    }
+    body .api-section #weatherResult .weather-icon { 
+        font-size: 2em !important; 
+        margin-right: 10px !important; 
+        vertical-align: middle !important;
+    }
+    
+    /* User Greeting in Navigation Bar */
+    .user-greeting-nav { 
+        color: white; 
+        font-size: 16px; 
+        vertical-align: middle;
+        margin-right: 15px;
+        line-height: 1; 
+    }
+
+    /* Itinerary specific styles within API section */
+    body #itinerarySection .itinerary-day { /* Increased specificity */
+        background-color: #252525 !important; 
+        padding: 15px !important; 
+        margin-bottom: 15px !important;
+        border-radius: 5px !important; 
+        border-left: 3px solid #ff6700 !important;
+    }
+    body #itinerarySection .itinerary-day h4 { /* Increased specificity */
+        color: #ff6700 !important; 
+        margin-top: 0 !important; 
+        font-size: 1.5em !important; 
+        text-transform: none !important; 
+        text-align: left !important; 
+        margin-left: 0 !important; 
+        padding-left: 0 !important; /* Reset padding if any from global h4 */
+        word-spacing: normal !important; /* Reset word spacing */
+    }
+    body #itinerarySection .itinerary-day h4:after { display: none !important; } 
+    body #itinerarySection .itinerary-day ul { list-style-type: disc !important; padding-left: 20px !important; margin-top:10px !important;}
+    body #itinerarySection .itinerary-day li { margin-bottom: 5px !important; color: #ddd !important; }
+    body #itinerarySection .itinerary-day .notes { font-style: italic !important; color: #aaa !important; margin-top: 10px !important; font-size: 0.9em !important;}
+
+    /* Map Container Style within API section */
+    body #distanceCalculatorSection #mapContainer { /* Increased specificity */
+      height: 400px !important; 
+      width: 100% !important;
+      margin-top: 20px !important;
+      border: 1px solid #555 !important;
+      border-radius: 4px !important;
+    }
+    
+    /* Carousel Image Fit */
+    .container-carousel .carousel-inner > .item > img { /* More specific to override potential global img */
+        width:100%; /* from original inline style */
+        height:95vh; /* from original inline style */
+        object-fit: cover !important; 
+    }
+
+    /* Navigation Bar Flexbox Adjustments - To work WITH original style.css */
+    .Navigation {
+      display: flex !important; /* Ensure flex if original has other display */
+      justify-content: space-between !important; 
+      align-items: center !important; 
+      padding: 0 15px !important; 
+    }
+    .nav-left-group { 
+      display: flex !important;
+      align-items: center !important;
+    }
+    .nav-right-group { 
+      display: flex !important;
+      align-items: center !important;
+    }
+    .Navigation .logo {
+        margin-left: 10px !important; 
+        width: 45px !important; 
+        height: 45px !important;
+        padding: 2px !important;
+        margin-top: 0 !important; 
+        margin-bottom: 0 !important;
+        border: 2px solid #ff6700 !important; /* Re-apply border if overridden */
+        border-radius: 50% !important; /* Re-apply radius if overridden */
+    }
+    .nav-left-group > span { 
+        line-height: 1 !important; 
+        font-size:25px !important; /* from original inline */
+        cursor:pointer !important; /* from original inline */
+        color:white !important; /* from original inline */
+        padding-left: 10px !important; /* from original inline */
+    }
+  </style>
+</head>
+    
+<body>
+    <!-- Navigation Section - Structure from your ORIGINAL index.html, adapted for greeting -->
+   <section class="Navigation"> 
+        <div class="nav-left-group">
+            <span onclick="openNav()">☰ Travel Guide</span>
+        </div>
+        <div class="nav-right-group">
+            <span id="userGreetingNav" class="user-greeting-nav" style="display:none;"></span>
+            <img src="logo.png" alt="Travel Guide Logo" class="logo"> 
+        </div>
+
+        <div id="myNav" class="overlay"> 
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+          <div class="overlay-content">
+            <a href="aboutus.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html" id="navLoginLink">Login</a>
+            <a href="javascript:void(0);" id="navLogoutLink" style="display:none;" onclick="logoutUser()">Logout</a>
+          </div>
+        </div>
+    </section>
+
+<div class="container-carousel"> 
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li> 
+    </ol>
+    <div class="carousel-inner">
+      <div class="item active">
+        <img src="dal-lake-1.jpg" alt="Dal Lake"> 
+         <div class="carousel-caption"><h3>Dal Lake</h3></div>
+      </div>
+      <div class="item">
+        <img src="himalyas.jpg" alt="Himalayas">
+          <div class="carousel-caption"><h3>Himalayas</h3></div>
+      </div>
+      <div class="item">
+        <img src="Varanasi.jpg" alt="Varanasi">
+          <div class="carousel-caption"><h3>Varanasi</h3></div> 
+      </div>
+      <div class="item">
+        <img src="sea-link.jpg" alt="Bandra-Worli Sea Link">
+          <div class="carousel-caption"><h3>Bandra-Worli Sea Link</h3></div>
+      </div>
+    </div>
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span><span class="sr-only">Previous</span></a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a>
+  </div>
+</div>
+
+    <header> 
+        <div class="row">
+            <div class="col span-1-of-2">
+               <div class="containers">
+                   <div class="overplays"> 
+                       <img src="Railways.jpg" alt="Indian Railways" class="image">
+                   </div>
+               </div>
+            </div>
+            <div class="col span-1-of-2">
+                <div class="text">
+                    <h1> Railways <br></h1>
+                    The first railway proposals for India were made in Madras in 1832.[9] The country's first train, Red Hill Railway (built by Arthur Cotton to transport granite for road-building), ran from Red Hills to the Chintadripet bridge in Madras in 1837.[9] In 1845, the Godavari Dam Construction Railway was built by Cotton at Dowleswaram in Rajahmundry, to supply stone for the construction of a dam over the Godavari River. In 1851, the Solani Aqueduct Railway was built by Proby Cautley in Roorkee to transport construction materials for an aqueduct over the Solani River.[9]
+                    India's first passenger train, hauled by three steam locomotives (Sahib, Sindh and Sultan), ran for 34 kilometres (21 mi) with 400 people in 14 carriages on 1,676 mm (5 ft 6 in) broad gauge track between Bori Bunder (Mumbai) and Thane on 16 April 1853.[10][11] The Thane viaducts, India's first railway bridges, were built over the Thane creek when the Mumbai-Thane line was extended to Kalyan in May 1854.[12] Eastern India's first passenger train ran 39 km (24 mi) from Howrah, near Kolkata, to Hoogly on 15 August 1854.[1] The first passenger train in South India ran 97 km (60 mi) from Royapuram- Veyasarapady (Madras) to Wallajah Road (Arcot) on 1 July 1856. <a href="https://www.irctc.co.in/nget/train-search" target="_blank">Book Here</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hotels">
+        <div class="row">
+            <div class="col span-1-of-2">
+                <div class="text">
+                    <h1>Hotels <br></h1>
+                   Jamsetji Nusserwanji Tata, founder of the Tata Group, opened the Taj Mahal Palace, a hotel in Mumbai (formerly called Bombay) overlooking the Arabian Sea, on 16 December 1903. It was the first Taj property and the first Taj hotel. There are several anecdotal stories about why Tata opened the Taj hotel. According to a story, he decided to open the hotel after an incident involving racial discrimination at the Watson's Hotel in Mumbai, where he was refused entry as the hotel permitted only Europeans.[8] Hotels that accepted only European guests were very common across British India then. According to another story, he opened the hotel when one of his friends expressed disgust over the hotels that were present in Bombay then. But a more plausible reason was advanced by Lovat Fraser, a close friend of the Tata and one of the early directors of the IHCL group, that the idea had long been in his mind and that he had made a study on the subject. He did not have any desire to own a hotel but he wanted to attract people to India and to improve Bombay. It is said that Jamsetji Tata had travelled to places like London, Paris, Berlin, and Düsseldorf to arrange for materials and pieces of art, furniture and other interior decor for his hotel.[9] The Taj group has since then developed and flourished, under the Tata Group. <a href="https://www.booking.com/" target="_blank">Book Here</a>
+                </div>
+            </div>
+            <div class="col span-1-of-2">
+               <div class="containers">
+                   <div class="overplays"> 
+                       <img src="hotel.jpg" alt="Hotel" class="image">
+                   </div>
+               </div>
+            </div>  
+        </div>
+    </section>
+    
+    <section class="culture">
+    <div class="row">
+                <div class="col span-1-of-2">
+                   <div class="containers">
+                       <div class="overplays"> 
+                       <img src="food1.jpg" alt="Indian Cuisines" class="image">
+                    </div>
+                       </div>
+                </div>
+                <div class="col span-1-of-2">
+                    <div class="text">
+                        <h1> Cuisines <br> 
+                        </h1>
+                        Indian cuisine consists of a wide variety of regional and traditional cuisines native to the Indian subcontinent. Given the range of diversity in soil type, climate, culture, ethnic groups, and occupations, these cuisines vary substantially from each other and use locally available spices, herbs, vegetables, and fruits. Indian food is also heavily influenced by religion, in particular Hinduism, cultural choices and traditions.[1] The cuisine is also influenced by centuries of Islamic rule, particularly the Mughal rule. Samosas and pilafs can be regarded as examples.
+                        Historical events such as foreign invasions, trade relations, and colonialism have played a role in introducing certain foods to this country. The Columbian discovery of the New World brought a number of new vegetables and fruit to India. A number of these such as the potato, tomatoes, chillies, peanuts, and Guava have become staples in many regions of India. Indian cuisine has shaped the history of international relations; the spice trade between India and Europe was the primary catalyst for Europe's Age of Discovery.[4] Spices were bought from India and traded around Europe and Asia. Indian cuisine has influenced other cuisines across the world, especially those from Europe (especially Britain), the Middle East, Southern African, East Africa, Southeast Asia, North America, Mauritius, Fiji, Oceania, and the Caribbean. <a href="https://www.zomato.com/" target="_blank">Order Here</a>
+                    </div>
+                </div>
+            </div>
+    </section>
+    
+     <section class="food"> 
+    <div class="row">
+                <div class="col span-1-of-2">
+                    <div class="text">
+                        <h1> Culture <br> 
+                        </h1>
+                       The culture of India refers collectively to the thousands of distinct and unique cultures of all religions and communities present in India. India's languages, religions, dance, music, architecture, food and customs differ from place to place within the country. Many elements of India's diverse cultures, such as Indian religions, philosophy, cuisine, languages, dance, music and movies have a profound impact across the Indosphere, Greater India and the world. India has 29 states with different culture and the second most populated country in the world. The Indian culture, often labeled as an amalgamation of several various cultures, spans across the Indian subcontinent and has been influenced and shaped by a history that is several thousand years old. Throughout the history of India, Indian culture has been heavily influenced by Dharmic religions. They have been credited with shaping much of Indian philosophy, literature, architecture, art and music. Greater India was the historical extent of Indian culture beyond the Indian subcontinent. This particularly concerns the spread of Hinduism, Buddhism, architecture, administration and writing system from India to other parts of Asia through the Silk Road by the travellers and maritime traders during the early centuries of the Common Era. To the west, Greater India overlaps with Greater Persia in the Hindu Kush and Pamir Mountains. Over the centuries, there has been a significant fusion of cultures between Buddhists, Hindus, Muslims, Jains, Sikhs and various tribal populations in India. <a href="https://www.indiaculture.nic.in/" target="_blank">Know More</a>
+                    </div>
+                </div>
+                <div class="col span-1-of-2">
+                   <div class="containers">
+                       <div class="overplays"> 
+                       <img src="culture.png" alt="Indian Culture" class="image">
+                    </div>
+                       </div>
+                </div>  
+            </div>
+    </section>
+    
+     <section class="places"> 
+    <div class="row">
+                <div class="col span-1-of-2">
+                   <div class="containers">
+                       <div class="overplays"> 
+                       <img src="lucknow.jpg" alt="Lucknow City" class="image">
+                    </div>
+                       </div>
+                </div>
+                <div class="col span-1-of-2">
+                    <div class="text">
+                        <h1> History <br> 
+                        </h1>
+                        According to consensus in modern genetics anatomically modern humans first arrived on the Indian subcontinent from Africa between 73,000 and 55,000 years ago. However, the earliest known human remains in South Asia date to 30,000 years ago. Settled life, which involves the transition from foraging to farming and pastoralism, began in South Asia around 7,000 BCE. At the site of Mehrgarh, Balochistan, Pakistan, presence can be documented of the domestication of wheat and barley, rapidly followed by that of goats, sheep, and cattle. By 4,500 BCE, settled life had spread more widely, and began to gradually evolve into the Indus Valley Civilization, an early civilization of the Old world, which was contemporaneous with Ancient Egypt and Mesopotamia. This civilisation flourished between 2,500 BCE and 1900 BCE in what today is Pakistan and north-western India, and was noted for its urban planning, baked brick houses, elaborate drainage, and water supply. <a href="https://knowindia.gov.in/culture-and-heritage/ancient-history.php" target="_blank">Know More</a>
+                    </div>
+                </div>
+            </div>
+    </section>
+    
+     <section class="nature">
+    <div class="row">
+                <div class="col span-1-of-2">
+                    <div class="text">
+                        <h1> Nature <br> 
+                        </h1>
+                        A fall of water is an area where water flows over a vertical drop or a series of steep drops in the course of a stream or river. Waterfalls also occur where meltwater drops over the edge of a tabular iceberg or ice shelf. Waterfalls are commonly formed in the upper course of a river where lakes fall into in steep mountains. Because of their landscape position, many waterfalls occur over bedrock fed by little contributing area, so they may be ephemeral and flow only during rainstorms or significant snowmelt. The further downstream, the more perennial a waterfall can be. Waterfalls can have a wide range of widths and depths. When the river courses over resistant bedrock, erosion happens slowly and is dominated by impacts of water-borne sediment on the rock, while downstream the erosion occurs more rapidly. As the watercourse increases its velocity at the edge of the waterfall, it may pluck material from the riverbed, if the bed is fractured or otherwise more erodible. Hydraulic jets and hydraulic jumps at the toe of a falls can generate large forces to erode the bed, especially when forces are amplified by water-borne sediment. Horseshoe-shaped falls focus the erosion to a central point, also enhancing riverbed change below a waterfalls.
+                        <a href="https://www.nature.org/en-us/about-us/where-we-work/india/stories-in-india/india-a-land-of-natural-wonders/" target="_blank">Know More</a>
+                    </div>
+                </div>
+                <div class="col span-1-of-2">
+                   <div class="containers">
+                       <div class="overplays"> 
+                       <img src="waterfalls.jpg" alt="Waterfalls" class="image">
+                    </div>
+                       </div>
+                </div>
+            </div>
+    </section>
+   
+    <section class="packages"> 
+        <h3> Travel Packages</h3>
+    <div class="row">
+        <div class="col span-1-of-4">
+            <div class="contain">
+              <img src="pack-si.jpg" alt="Kerala backwaters" class="imag">
+              <div class="overl">
+                <div class="tex">The Kerala backwaters</div>
+                  <a class="button btn-pack" href="https://innovate.mygov.in/" target="_blank"> View More  </a>
+              </div>
+            </div>
+        </div>
+        <div class="col span-1-of-4">
+            <div class="contain">
+              <img src="pack-ni.jpg" alt="Mughal Era" class="imag">
+              <div class="overl">
+                <div class="tex">The Mughal Era</div> 
+                  <a class="button btn-pack" href="https://innovate.mygov.in/" target="_blank"> View More  </a>
+              </div>
+            </div>
+        </div>  
+         <div class="col span-1-of-4">
+            <div class="contain">
+              <img src="KEDARNATH.jpg" alt="Kedarnath" class="imag">
+              <div class="overl">
+                <div class="tex">Lord Shiva's Abode</div> 
+                  <a class="button btn-pack" href="https://innovate.mygov.in/" target="_blank"> View More  </a>
+              </div>
+            </div>
+        </div>  
+         <div class="col span-1-of-4">
+            <div class="contain">
+              <img src="rameshwaram.jpg" alt="Rameswaram Temple" class="imag">
+              <div class="overl">
+                <div class="tex">Rameswaram Temple</div> 
+                  <a class="button btn-pack" href="https://innovate.mygov.in/" target="_blank"> View More  </a>
+              </div>
+            </div>
+        </div>  
+    </div>
+    </section>
+    
+    <section class="packages01"> 
+        <div class="row">
+            <div class="col span-1-of-4">
+                <div class="contain">
+                  <img src="wildlife.jpg" alt="Wildlife Parks" class="imag">
+                  <div class="overl">
+                    <div class="tex">Wildlife Parks</div>
+                      <a class="button btn-pack" href="https://innovate.mygov.in/" target="_blank"> View More  </a>
+                  </div>
+                </div>
+            </div> 
+            <div class="col span-1-of-4">
+                <div class="contain">
+                  <img src="jamamasjid.jpg" alt="Old Delhi" class="imag">
+                  <div class="overl">
+                    <div class="tex">Old Delhi</div>
+                      <a class="button btn-pack" href="https://innovate.mygov.in/" target="_blank"> View More  </a>
+                  </div>
+                </div>
+            </div> 
+            <div class="col span-1-of-4">
+                <div class="contain">
+                  <img src="lucknow-metro.jpg" alt="Travel Pass" class="imag">
+                  <div class="overl">
+                    <div class="tex">Travel Pass</div>
+                      <a class="button btn-pack" href="https://innovate.mygov.in/" target="_blank"> View More  </a>
+                  </div>
+                </div>
+            </div> 
+            <div class="col span-1-of-4">
+                <div class="contain">
+                  <img src="la.jpg" alt="Winters" class="imag">
+                  <div class="overl">
+                    <div class="tex">Winters</div>
+                      <a class="button btn-pack" href="https://innovate.mygov.in/" target="_blank"> View More  </a>
+                  </div>
+                </div>
+            </div> 
+        </div>
+    </section>
+    
+    <section class="About-India"> 
+        <div class="row">
+            <div class="col span-1-of-2">
+                <div class="text">
+                <h1>Country info<br></h1>
+                </div>
+              <div class="aboutext">
+                  Currency : Indian Rupee (INR)<br> 
+                  Population : ~1.4 Billion<br> 
+                  Time Zone : UTC+5:30<br>
+                  Capital : New Delhi<br>
+                  Area : 3.287 million km<sup>2</sup> <br> 
+                  States : 28<br>
+                  Union territories : 8<br>
+                  Country Code : +91
+                </div>
+            </div>
+             <div class="col span-1-of-2">
+                <div class="text">
+                    <h1> About India <br> 
+                    </h1>
+                   Tourism in India has shown a phenomenal growth in the past decade. One of the reasons is that the Ministry of tourism, India has realized the immense potential of tourism in India during vacations. India travel tourism has grown rapidly with a great influx of tourists from all across the globe who have been irresistibly attracted to the rich culture, heritage, and incredible natural beauty of India. India tourism with its foggy hill stations, captivating beaches, historical monuments, golden deserts, serene backwaters, pilgrimage sites, rich wildlife, and colourful fairs capture the heart of every tourist. In addition, a variety of festivals, lively markets, vibrant lifestyle, and traditional Indian hospitality, will make your experience as an india tourist truly unforgettable and fantastic. Travel through the lovely Indian states and discover closely the resplendent colors and rich cultural locales of this incredible land. Our India tourism guide provides you a glimpse of travel and tourism in india ,india tourism information about south india tourism, north India tourism, and all the major tourist destinations, and tourism services of India.
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="packages"> 
+        <div class="row">
+            <div class="col span-1-of-4">
+                <div class="flip-card">
+                  <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                      <img src="north-india.jpg" alt="North India" style="width:300px;height:220px;"> 
+                    </div>
+                    <div class="flip-card-back">
+                      <h4>NORTH INDIA</h4> 
+                        <a class="zone-card" href="http://www.uptourism.gov.in/" target="_blank">Uttar Pradesh</a><br>
+                        <a class="zone-card" href="http://delhitourism.gov.in/" target="_blank">Delhi</a><br>
+                        <a class="zone-card" href="https://himachaltourism.gov.in/" target="_blank"> Himachal Pradesh</a><br>  
+                        <a class="zone-card" href="http://punjabtourism.gov.in/" target="_blank">Punjab</a><br>  
+                        <a class="zone-card" href="https://uttarakhandtourism.gov.in/" target="_blank">Uttarakhand</a><br>  
+                        <a class="zone-card" href="http://haryanatourism.gov.in/" target="_blank">Haryana</a><br>  
+                        <a class="zone-card" href="http://www.jktourism.jk.gov.in/" target="_blank">Jammu & Kashmir</a><br>  
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col span-1-of-4">
+                <div class="flip-card">
+                  <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                      <img src="south-india.jpg" alt="South India" style="width:300px;height:220px;">
+                    </div>
+                    <div class="flip-card-back">
+                      <h4>South India</h4> 
+                         <a class="zone-card" href="https://www.telanganatourism.gov.in/" target="_blank">Telangana</a><br>
+                         <a class="zone-card" href="https://tourism.ap.gov.in/" target="_blank">Andhra Pradesh</a><br>
+                         <a class="zone-card" href="http://www.tamilnadutourism.org/" target="_blank"> Tamil Nadu</a><br>
+                         <a class="zone-card" href="https://www.karnatakatourism.org/" target="_blank">Karnataka</a><br>     
+                         <a class="zone-card" href="https://www.keralatourism.org/" target="_blank">Kerala</a><br>  
+                         <a class="zone-card" href="http://goatourism.gov.in/" target="_blank">Goa</a><br>  
+                         <a class="zone-card" href="http://www.pondytourism.in/" target="_blank">Puducherry</a><br>  
+                         <a class="zone-card" href="https://www.andamantourism.gov.in/" target="_blank">Andaman & Nicobar Islands</a><br>  
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col span-1-of-4">
+                <div class="flip-card">
+                  <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                      <img src="west-india.jpg" alt="West & Central India" style="width:300px;height:220px;">
+                    </div>
+                    <div class="flip-card-back">
+                      <h4>West & Central India</h4> 
+                         <a class="zone-card" href="http://www.tourism.rajasthan.gov.in/" target="_blank">Rajasthan</a><br>
+                         <a class="zone-card" href="https://www.gujarattourism.com/" target="_blank">Gujarat</a><br> 
+                         <a class="zone-card" href="https://www.maharashtratourism.gov.in/" target="_blank">Maharashtra</a><br>
+                         <a class="zone-card" href="http://www.mptourism.com/" target="_blank">Madhya Pradesh</a><br>  
+                         <a class="zone-card" href="http://cggovttourism.ddns.net/" target="_blank">Chhattisgarh</a><br>     
+                         <a class="zone-card" href="http://odishatourism.gov.in/" target="_blank">Odisha</a><br>  
+                         <a class="zone-card" href="https://jharkhandtourism.gov.in/" target="_blank">Jharkhand</a><br>  
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col span-1-of-4">
+                <div class="flip-card">
+                  <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                      <img src="east-india.jpg" alt="East India" style="width:300px;height:220px;">
+                    </div>
+                    <div class="flip-card-back">
+                      <h4>East India</h4> 
+                         <a class="zone-card" href="http://arunachaltourism.com/" target="_blank">Arunachal Pradesh</a><br> 
+                         <a class="zone-card" href="https://www.sikkimtourism.gov.in/" target="_blank">Sikkim</a><br>
+                         <a class="zone-card" href="https://assamtourism.gov.in/" target="_blank">Assam</a><br>
+                         <a class="zone-card" href="https://tourism.mizoram.gov.in/" target="_blank">Mizoram</a><br>     
+                         <a class="zone-card" href="https://manipurtourism.gov.in/" target="_blank">Manipur</a><br>  
+                         <a class="zone-card" href="https://tourism.nagaland.gov.in/" target="_blank">Nagaland</a><br>  
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Weather Section - API Section -->
+    <section id="weatherSection" class="api-section">
+        <div class="container"> 
+            <h3>Live Weather Forecast</h3>
+            <div class="form-group text-center"> 
+                <button onclick="fetchWeatherByGeolocation()" class="btn btn-primary btn-lg">Get Weather for My Location</button>
+            </div>
+            <p style="text-align: center; margin: 20px 0;">OR ENTER COORDINATES</p>
+            <div class="row">
+                <div class="col-md-6 col-xs-12"> 
+                    <div class="form-group">
+                        <label for="latitude">Latitude:</label>
+                        <input type="number" id="latitude" class="form-control" placeholder="e.g., 26.9239 (N+, S-)">
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                     <div class="form-group">
+                        <label for="longitude">Longitude:</label>
+                        <input type="number" id="longitude" class="form-control" placeholder="e.g., 75.8267 (E+, W-)">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                 <button onclick="fetchWeatherByCoords()" class="btn btn-info">Get Weather by Coordinates</button>
+            </div>
+            <div id="weatherResult">Weather information will appear here...</div>
+        </div>
+    </section>
+
+    <!-- Itinerary Section - API Section -->
+    <section id="itinerarySection" class="api-section">
+        <div class="container">
+            <h3>Plan Your Itinerary with AI</h3>
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" class="form-control" placeholder="e.g., Paris, France">
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration (e.g., 3 days, 1 week):</label>
+                <input type="text" id="duration" class="form-control" placeholder="e.g., 3 days">
+            </div>
+            <div class="form-group">
+                <label for="interests">Interests (comma-separated):</label>
+                <textarea id="interests" rows="3" class="form-control" placeholder="e.g., museums, food, sites"></textarea>
+            </div>
+             <div class="form-group text-center">
+                <button onclick="generateItinerary()" class="btn btn-success btn-lg">Generate Itinerary</button>
+            </div>
+            <div id="itineraryResult">Your AI-generated itinerary will appear here... <br> (Note: AI can take a moment)</div>
+        </div>
+    </section>
+
+    <!-- Distance Calculator & Map Section - API Section -->
+    <section id="distanceCalculatorSection" class="api-section">
+        <div class="container">
+            <h3>Distance Calculator & Route Map</h3>
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="locationA">Location A (Start):</label>
+                        <input type="text" id="locationA" class="form-control" placeholder="e.g., Eiffel Tower, Paris">
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="locationB">Location B (End):</label>
+                        <input type="text" id="locationB" class="form-control" placeholder="e.g., Louvre Museum, Paris">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <button onclick="getDistanceAndRoute()" class="btn btn-warning btn-lg">Calculate & Show Route</button>
+            </div>
+            <div id="distanceResult">Distance and duration will appear here...</div>
+            <div id="mapContainer"></div> 
+        </div>
+    </section>
+
+    <section class="Payment"> 
+      <h3><a href="payment.html" >Click here for Payment</a></h3>
+    </section>
+    
+    <section class="update-event"> 
+        <h3> Upcoming Events</h3>
+        <div class="microsoft container"> 
+           <p class="marquee">
+                The Great Indian Travel Bazaar  <a href="https://10times.com/gitb" target="_blank">(GITB)</a> <br>
+                India Tourism Conclave <a href="https://10times.com/india-tourism-conclave-new-delhi" target="_blank"> New Delhi </a> <br>
+                International Conference on Rural Tourism - Challenges, Scope and Entrepreneurship Development<a href="https://10times.com/international-conference-on-rural-tourism" target="_blank"> Dehradun</a> <br>
+                International Tourism Exhibition <a href="https://10times.com/sittf" target="_blank">(ITE)</a> <br>
+                Tourism Expo India <a href="https://10times.com/tourism-expo-india" target="_blank">(TEI Kolkata)</a> <br>
+                International Travel Roadshow <a href="https://10times.com/itr-new-delhi" target="_blank">(ITR)</a><br>
+                Travel & Tourism Fair-Kolkata <a href="https://10times.com/travel-tourism-kolkata" target="_blank">(TTF)</a><br>
+                Travel and Tourism Fair - Hyderabad <a href="https://10times.com/travel-tourism-hyderabad" target="_blank">(TTF SOUTH)</a><br>
+                India International Travel Mart Bangalore <a href="https://10times.com/iitm-bangalore" target="_blank">(IITM Bangalore)</a><br>
+                International Conference on Sustainable Tourism <a href="https://10times.com/icst-kolkata" target="_blank">(ICST)</a><br>
+                Global Residency & Citizenship Expo <a href="https://10times.com/grace-india" target="_blank">(GRACE)</a><br>
+                Islamic Travel Mart<a href="https://10times.com/itm-mumbai" target="_blank"> (ITM)</a><br>
+                Diving Resort Travel Show India <a href="https://10times.com/drt-mumbai" target="_blank">(DRT)</a><br>
+                ADEX India Ocean Festival - Mumbai Dive Show<a href="https://10times.com/adex-mumbai" target="_blank"> Mumbai</a>
+            </p>
+        </div>
+        <p class="vanity"> 
+            <a href="#" target="_blank">@Team</a> of 
+            <a href="#" target="_blank">@Travel.TourGuide</a>   
+        </p>
+        <h5> Copyright ©. All rights reserved.</h5> 
+    </section>
+        
+    <footer> 
+        <div class="foot" id="end"> 
+            <div id="mySidebar" class="sidebar"> 
+                <div>
+                   <a href="contact.html">   Contact Us</a> 
+                   <ul class="social-links"> 
+                       <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                       <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                       <li><a href="#" target="_blank"><i class="fa fa-google"></i></a></li>
+                       <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                       <li><a href="#" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+                   </ul>
+                </div>
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">×</a> 
+            </div>
+            <div id="main"> 
+              <button class="openbtn" onclick="openNav1()">✉</button>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // Navigation scripts (from original index.html)
+    function openNav() { document.getElementById("myNav").style.height = "100%"; }
+    function closeNav() { document.getElementById("myNav").style.height = "0%"; }
+    function openNav1() { document.getElementById("mySidebar").style.width = "250px"; document.getElementById("main").style.marginLeft = "250px"; }
+    function closeNav1() { document.getElementById("mySidebar").style.width = "0"; document.getElementById("main").style.marginLeft= "0"; }
+
+    // Authentication State & UI (for top nav)
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('authToken');
+        const userName = localStorage.getItem('userName');
+        const userGreetingNav = document.getElementById('userGreetingNav');
+        const navLoginLink = document.getElementById('navLoginLink'); 
+        const navLogoutLink = document.getElementById('navLogoutLink'); 
+
+        if (token && userName) {
+            userGreetingNav.textContent = `Hi, ${userName}!`;
+            userGreetingNav.style.display = 'inline'; 
+            if(navLoginLink) navLoginLink.style.display = 'none';
+            if(navLogoutLink) navLogoutLink.style.display = 'block'; 
+        } else {
+            userGreetingNav.style.display = 'none';
+            if(navLoginLink) navLoginLink.style.display = 'block'; 
+            if(navLogoutLink) navLogoutLink.style.display = 'none';
+        }
+    });
+
+    function logoutUser() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userName');
+        window.location.href = 'login.html'; 
+    }
+
+    // --- Distance Calculator & Map JavaScript ---
+    let map = null; 
+    let routeLayer = null; 
+
+    async function geocodeSingleLocation(locationName, inputFieldId) {
+        const resultDiv = document.getElementById('distanceResult');
+        if (!locationName) {
+            resultDiv.innerHTML = `<p style="color:red;">Please enter ${inputFieldId === 'locationA' ? 'Location A' : 'Location B'}.</p>`;
+            return null;
+        }
+        try {
+            const response = await fetch(`/api/map/geocode?location=${encodeURIComponent(locationName)}`);
+            const data = await response.json();
+            if (!response.ok) { throw new Error(data.message || `Geocoding failed for ${locationName}`); }
+            return data; 
+        } catch (error) {
+            console.error(`Error geocoding ${locationName}:`, error);
+            resultDiv.innerHTML = `<p style="color:red;">Error geocoding ${locationName}: ${error.message}</p>`;
+            return null;
+        }
+    }
+
+    async function getDistanceAndRoute() {
+        const locationAName = document.getElementById('locationA').value;
+        const locationBName = document.getElementById('locationB').value;
+        const distanceResultDiv = document.getElementById('distanceResult');
+        distanceResultDiv.innerHTML = '<p>Processing...</p>';
+
+        if (!locationAName || !locationBName) {
+            distanceResultDiv.innerHTML = '<p style="color:red;">Please enter both locations.</p>'; return;
+        }
+
+        if (!map) {
+            map = L.map('mapContainer').setView([20.5937, 78.9629], 5); 
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+        } else {
+            map.eachLayer(layer => { if (layer instanceof L.Marker || layer instanceof L.GeoJSON) map.removeLayer(layer); });
+        }
+        
+        distanceResultDiv.innerHTML = `<p>Geocoding...</p>`;
+        const coordsA = await geocodeSingleLocation(locationAName, 'locationA');
+        if (!coordsA) { distanceResultDiv.innerHTML += `<br>Could not find Location A.`; return; }
+        
+        const coordsB = await geocodeSingleLocation(locationBName, 'locationB');
+        if (!coordsB) { distanceResultDiv.innerHTML += `<br>Could not find Location B.`; return; }
+
+        distanceResultDiv.innerHTML = `<p>Plotting & calculating route...</p>`;
+        const markerA = L.marker([coordsA.lat, coordsA.lon]).addTo(map).bindPopup(`<b>A:</b> ${coordsA.display_name || locationAName}`).openPopup();
+        const markerB = L.marker([coordsB.lat, coordsB.lon]).addTo(map).bindPopup(`<b>B:</b> ${coordsB.display_name || locationBName}`);
+        map.fitBounds(new L.featureGroup([markerA, markerB]).getBounds().pad(0.2)); 
+
+        try {
+            const routeRsp = await fetch(`/api/map/route?from_lat=${coordsA.lat}&from_lon=${coordsA.lon}&to_lat=${coordsB.lat}&to_lon=${coordsB.lon}`);
+            const routeData = await routeRsp.json();
+            if (!routeRsp.ok) throw new Error(routeData.message || "Route fetch failed.");
+
+            const distKm = (routeData.distance / 1000).toFixed(2);
+            const durMins = Math.round(routeData.duration / 60);
+            let durFmt = durMins < 60 ? `${durMins} mins` : `${Math.floor(durMins / 60)} hr(s) ${durMins % 60} mins`;
+
+            distanceResultDiv.innerHTML = `<p><strong>Dist:</strong> ${distKm} km | <strong>Time:</strong> ${durFmt}</p>`;
+            if (routeData.geometry) {
+                if (routeLayer) map.removeLayer(routeLayer);
+                routeLayer = L.geoJSON(routeData.geometry, { style: () => ({ color: "#ff0000", weight: 5, opacity: 0.7 }) }).addTo(map);
+                map.fitBounds(routeLayer.getBounds().pad(0.1)); 
+            }
+        } catch (err) {
+            console.error('Route error:', err);
+            distanceResultDiv.innerHTML = `<p style="color:red;">Route error: ${err.message}</p>`;
+        }
+    }
+
+    // WMO Weather Codes Mapping
+    const WMO_CODES = {
+        0: { text: "Clear sky", icon: "☀️" }, 1: { text: "Mainly clear", icon: "🌤️" },
+        2: { text: "Partly cloudy", icon: "🌥️" }, 3: { text: "Overcast", icon: "☁️" },
+        45: { text: "Fog", icon: "🌫️" }, 48: { text: "Depositing rime fog", icon: "🌫️" },
+        51: { text: "Drizzle: Light", icon: "🌦️" }, 53: { text: "Drizzle: Moderate", icon: "🌦️" },
+        55: { text: "Drizzle: Dense", icon: "🌧️" }, 56: { text: "Freezing Drizzle: Light", icon: "🌨️" },
+        57: { text: "Freezing Drizzle: Dense", icon: "🌨️" },61: { text: "Rain: Slight", icon: "🌦️" },
+        63: { text: "Rain: Moderate", icon: "🌧️" }, 65: { text: "Rain: Heavy", icon: "🌧️" },
+        66: { text: "Freezing Rain: Light", icon: "🌨️" },67: { text: "Freezing Rain: Heavy", icon: "🌨️" },
+        71: { text: "Snow fall: Slight", icon: "❄️" },73: { text: "Snow fall: Moderate", icon: "❄️" },
+        75: { text: "Snow fall: Heavy", icon: "❄️" },77: { text: "Snow grains", icon: "❄️" },
+        80: { text: "Rain showers: Slight", icon: "🌦️" }, 81: { text: "Rain showers: Moderate", icon: "🌧️" },
+        82: { text: "Rain showers: Violent", icon: "🌧️" },85: { text: "Snow showers slight", icon: "🌨️" },
+        86: { text: "Snow showers heavy", icon: "🌨️" },95: { text: "Thunderstorm: Slight or moderate", icon: "⛈️" },
+        96: { text: "Thunderstorm with slight hail", icon: "⛈️" },99: { text: "Thunderstorm with heavy hail", icon: "⛈️" }
+    };
+    function getWeatherDescription(code) {
+        return WMO_CODES[code] || { text: "Code: " + code, icon: "❓" };
+    }
+
+    // Weather API Calls
+    async function fetchWeatherByCoords() {
+        const weatherResultDiv = document.getElementById('weatherResult');
+        const lat = parseFloat(document.getElementById('latitude').value);
+        const lon = parseFloat(document.getElementById('longitude').value);
+        if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+            weatherResultDiv.innerHTML = '<p style="color:red;">Invalid coordinates.</p>'; return;
+        }
+        fetchWeatherData(lat, lon);
+    }
+    function fetchWeatherByGeolocation() {
+        const weatherResultDiv = document.getElementById('weatherResult');
+        if (navigator.geolocation) {
+            weatherResultDiv.innerHTML = '<p>Getting location...</p>';
+            navigator.geolocation.getCurrentPosition(
+                pos => fetchWeatherData(pos.coords.latitude, pos.coords.longitude),
+                err => weatherResultDiv.innerHTML = `<p style="color:red;">Geolocation error: ${err.message}.</p>`
+            );
+        } else {
+            weatherResultDiv.innerHTML = '<p style="color:orange;">Geolocation not supported.</p>';
+        }
+    }
+    async function fetchWeatherData(latitude, longitude) {
+        const weatherResultDiv = document.getElementById('weatherResult');
+        weatherResultDiv.innerHTML = '<p>Fetching weather...</p>';
+        try {
+            const response = await fetch(`/api/weather?latitude=${latitude}&longitude=${longitude}`);
+            const data = await response.json(); 
+            if (!response.ok) throw new Error(data.message || `API error: ${response.status}`);
+            
+            let html = `<h4>Weather: Lat ${data.latitude.toFixed(2)}, Lon ${data.longitude.toFixed(2)} (${data.timezone||'N/A'})</h4>`;
+            if (data.current_weather) {
+                const cw = getWeatherDescription(data.current_weather.weather_code);
+                html += `<p><span class="weather-icon">${cw.icon}</span> Now: ${data.current_weather.temperature}${data.units?.temperature||'°C'}, ${cw.text}</p>`;
+                html += `<p>Wind: ${data.current_weather.wind_speed}${data.units?.wind_speed||'km/h'}, Humidity: ${data.current_weather.relative_humidity}${data.units?.humidity||'%'}</p>`;
+            } else { html += `<p>Current weather unavailable.</p>`; }
+            
+            if (data.daily && data.daily.length > 0) {
+                html += `<h5 style="margin-top:15px; color:#ddd;">Next 3 Days:</h5>`;
+                data.daily.slice(0, 3).forEach(day => {
+                    const dayDesc = getWeatherDescription(day.weather_code);
+                    html += `<p style="margin-bottom:5px;"><strong>${new Date(day.time).toLocaleDateString(undefined, {weekday:'short',month:'short',day:'numeric'})}:</strong> 
+                             ${dayDesc.icon} ${dayDesc.text}, Max: ${day.temperature_max}${data.units?.temperature||'°C'}, Min: ${day.temperature_min}${data.units?.temperature||'°C'}</p>`;
+                });
+            } else { html += `<p>Daily forecast unavailable.</p>`; }
+            weatherResultDiv.innerHTML = html;
+        } catch (err) {
+            console.error('Weather fetch error:', err);
+            weatherResultDiv.innerHTML = `<p style="color:red;">Weather error: ${err.message}</p>`;
+        }
+    }
+
+    // Itinerary API Call
+    async function generateItinerary() {
+        const dest = document.getElementById('destination').value;
+        const dur = document.getElementById('duration').value;
+        const interests = document.getElementById('interests').value;
+        const itineraryResultDiv = document.getElementById('itineraryResult');
+
+        if (!dest || !dur) { itineraryResultDiv.innerHTML = '<p style="color:red;">Enter destination & duration.</p>'; return; }
+        itineraryResultDiv.innerHTML = '<p>Generating itinerary (AI)...</p>';
+        try {
+            const response = await fetch('/api/itinerary/generate', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ destination: dest, duration: dur, interests })
+            });
+            const data = await response.json(); 
+            if (!response.ok) { 
+                if (data.rawResponse) {
+                     itineraryResultDiv.innerHTML = `
+                        <h4 style="color:orange;text-align:center;">AI Response Issue</h4>
+                        <p>${data.message||'AI processing error.'}</p>
+                        <p style="font-size:0.9em;color:#aaa;">Raw AI Output:</p>
+                        <pre style="background-color:#333;color:#eee;padding:10px;border-radius:4px;max-height:300px;overflow-y:auto;">${data.rawResponse}</pre>`;
+                } else { throw new Error(data.message || `API error: ${response.status}`); }
+                return; 
+            }
+            
+            if (data.itinerary && Array.isArray(data.itinerary)) {
+                 let html = `<h4 style="color:#ffc107;text-align:center;margin-bottom:15px;">Itinerary: ${dest} (${dur})</h4>`;
+                 data.itinerary.forEach((dayPlan, index) => { 
+                    html += `<div class="itinerary-day"><h4>Day ${dayPlan.day||(index+1)}${dayPlan.title?': '+dayPlan.title:''}</h4>`;
+                    if (dayPlan.activities && dayPlan.activities.length > 0) {
+                        html += `<ul>${dayPlan.activities.map(act => `<li>${act}</li>`).join('')}</ul>`;
+                    }
+                    if (dayPlan.notes) { html += `<p class="notes">Notes: ${dayPlan.notes}</p>`;}
+                    html += `</div>`;
+                });
+                itineraryResultDiv.innerHTML = html;
+            } else if (data.rawResponse) { 
+                 itineraryResultDiv.innerHTML = `
+                    <h4 style="color:orange;text-align:center;">AI Response (Manual Review)</h4>
+                    <p>AI response couldn't be structured. Raw suggestion:</p>
+                    <pre style="background-color:#333;color:#eee;padding:10px;border-radius:4px;max-height:400px;overflow-y:auto;">${data.rawResponse}</pre>`;
+            } else {
+                itineraryResultDiv.innerHTML = `<p style="color:orange;">Could not generate structured itinerary. Try again or simplify.</p><p style="font-size:0.8em">Debug: ${JSON.stringify(data)}</p>`;
+            }
+        } catch (err) {
+            console.error('Itinerary error:', err);
+            itineraryResultDiv.innerHTML = `<p style="color:red;">Itinerary error: ${err.message}</p>`;
+        }
+    }
+</script>
+</body>
+</html>

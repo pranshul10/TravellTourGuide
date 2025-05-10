@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Travel Tour Guide</title>
+    <style>
+        /* --- Base Styles for Dark Theme --- */
+        :root {
+            --primary-accent: #eacbb6; /* Bright Orange */
+            --secondary-accent: #d58f60; /* Lighter Orange for hover */
+            --text-light: #e8e8e8;      /* Light text for readability on dark */
+            --text-medium: #cccccc;     /* Slightly dimmer text */
+            --bg-dark-primary: #0a0a0a; /* Very dark primary background */
+            --bg-dark-secondary: #121212; /* Slightly lighter dark for sections */
+            --card-dark-bg: #1f1f1f;    /* Dark card background */
+            --card-dark-shadow: rgba(255, 255, 255, 0.05);
+            --card-dark-hover-shadow: rgba(255, 255, 255, 0.1);
+            --border-radius-base: 8px;
+            --border-radius-large: 10px;
+            --font-family-sans-serif: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body.about-page { /* Specific to this page */
+            font-family: var(--font-family-sans-serif);
+            color: var(--text-medium);
+            line-height: 1.65;
+            background-color: var(--bg-dark-primary);
+            padding-top: 70px; /* Adjust if header height changes, for fixed header */
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- Header --- */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            color: var(--text-light);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            position: fixed; /* Fixed header */
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex; /* For alignment */
+            align-items: center; /* Vertical alignment */
+            justify-content: center; /* Horizontal center for single item */
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between; /* Space between title and nav links */
+            align-items: center;
+            width: 100%;
+        }
+        header h2 {
+            font-size: 1.6rem;
+            margin: 0;
+            color: var(--primary-accent);
+        }
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .nav-links a:hover,
+        .nav-links a:focus {
+            color: var(--primary-accent);
+        }
+
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(10, 10, 10, 0.85)), url('dal-lake-1.jpg') no-repeat center center/cover; /* Replace with actual image if desired */
+            /* If no image, use a dark gradient:
+            background: linear-gradient(135deg, #222 0%, #0f0f0f 100%); */
+            color: var(--text-light);
+            text-align: center;
+            padding: 6rem 1.5rem 5rem; /* More top padding */
+            position: relative;
+        }
+        .hero-content h1 {
+            font-size: clamp(2.2rem, 6vw, 3.5rem);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+            color: #fff; /* Brighter white for hero title */
+        }
+        .hero-content p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-medium);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* --- General Section Styling --- */
+        .section {
+            padding: 4rem 0;
+            background-color: var(--bg-dark-secondary); /* Default section bg */
+        }
+        .section:nth-child(odd) { /* Alternate section background */
+            background-color: var(--bg-dark-primary);
+        }
+        /* Override for specific section (Key Features) */
+        .section.key-features-section {
+             background: linear-gradient(to bottom, #181818, #0c0c0c);
+        }
+
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-accent);
+            margin: 0.75rem auto 3rem;
+            border-radius: 2px;
+        }
+
+        /* --- About Our Project Section --- */
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            align-items: center;
+        }
+        .about-text p {
+            margin-bottom: 1rem;
+            color: var(--text-medium);
+        }
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius-base);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            object-fit: cover;
+            max-height: 350px; /* Optional: constrain image height */
+        }
+
+        /* --- Key Features Section --- */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .feature-card {
+            background-color: var(--card-dark-bg);
+            padding: 2rem 1.5rem;
+            border-radius: var(--border-radius-base);
+            text-align: center;
+            box-shadow: 0 5px 15px var(--card-dark-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px var(--card-dark-hover-shadow);
+        }
+        .feature-icon {
+            font-size: 2.8rem;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+        }
+
+        /* --- Meet Our Team Section --- */
+        .team {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+        .team-member {
+            background-color: var(--card-dark-bg);
+            border-radius: var(--border-radius-large);
+            box-shadow: 0 6px 18px var(--card-dark-shadow);
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .team-member:hover {
+            transform: translateY(-10px); /* Removed scale for less jumpiness on dark */
+            box-shadow: 0 10px 25px var(--card-dark-hover-shadow);
+        }
+        .team-image-placeholder {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            background-color: #2a2a2a; /* Slightly lighter dark for image placeholder */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .team-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease-out;
+        }
+        .team-member:hover .team-image-placeholder img {
+            transform: scale(1.05); /* Subtle zoom */
+        }
+        .team-initial-circle {
+            font-size: 4rem;
+            color: rgba(240, 240, 240, 0.7); /* Lighter initial for contrast */
+            font-weight: 300;
+            line-height: 1;
+        }
+        .team-info {
+            padding: 1.5rem 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .team-name {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 0.4rem;
+        }
+        .team-name::after {
+            content: '';
+            display: block;
+            width: 45px;
+            height: 3px;
+            background-color: var(--primary-accent);
+            margin: 0.7rem auto 1.2rem;
+            border-radius: 2px;
+        }
+        .team-role {
+            font-size: 0.9rem;
+            color: var(--primary-accent); /* Use primary accent for role for pop */
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        .team-member p:not(.team-role):not(.team-name) {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            line-height: 1.7;
+            margin-bottom: 0;
+            flex-grow: 1;
+        }
+
+        /* --- CTA Section --- */
+        .cta {
+            background: linear-gradient(135deg, var(--primary-accent) 0%, #cc5200 100%); /* Orange gradient */
+            color: #fff; /* White text on orange */
+            padding: 4rem 1.5rem;
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .cta p {
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            max-width: 650px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        .cta .btn {
+            background-color: #fff; /* White button */
+            color: var(--primary-accent); /* Orange text */
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s ease-out, color 0.2s ease-out, transform 0.2s ease-out;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            border: 2px solid transparent; /* For hover effect */
+        }
+        .cta .btn:hover {
+            background-color: transparent;
+            color: #fff;
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #080808; /* Darkest for footer */
+            color: var(--text-medium);
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            font-size: 0.9rem;
+        }
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- Responsive Adjustments (Example) --- */
+        @media (max-width: 768px) {
+            body.about-page {
+                padding-top: 60px; /* Adjust for potentially smaller header */
+            }
+            header {
+                padding: 0.8rem 0;
+            }
+            header .container {
+                flex-direction: column; /* Stack title and nav on small screens */
+                gap: 0.5rem;
+            }
+            header h2 {
+                font-size: 1.4rem;
+            }
+            .nav-links a {
+                margin-left: 0.8rem;
+                margin-right: 0.8rem; /* Add right margin too for spacing */
+            }
+            .hero {
+                padding: 4rem 1.5rem 3rem;
+            }
+            .section {
+                padding: 3rem 0;
+            }
+            .section-title::after {
+                margin-bottom: 2rem;
+            }
+            .about-content {
+                gap: 1.5rem;
+            }
+            .team {
+                gap: 1.5rem;
+            }
+        }
+
+    </style>
+    <!-- Note: You mentioned <link rel="stylesheet" href="style.css">.
+         If you keep that, ensure it doesn't conflict with these embedded styles.
+         Ideally, all styles for this page would be here OR all in style.css.
+         For this request, I'm putting them all here. -->
+</head>
+<body class="about-page"> <!-- Added class for page-specific body styling -->
+
+    <header>
+        <div class="container">
+            <h2>Travel Tour Guide </h2>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="contact.html">Contact</a>
+                <a href="login.html" id="navLoginLink">Login</a>
+                <a href="javascript:void(0);" id="navLogoutLink" style="display:none;" onclick="logoutUser()">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Your Smart Travel Companion</h1>
+                <p>Discover places, plan trips, and explore like never before with our innovative travel tour guide</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section"> <!-- About Our Project -->
+        <div class="container">
+            <h2 class="section-title">About Our Project</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Welcome to our Travel Tour Guide! We've developed an innovative solution that transforms how tourists explore and experience new destinations. Our system leverages lightweight mashup technology and powerful APIs to combine multiple data sources into a single, user-friendly website.</p>
+                    <p>Designed to overcome the limitations of mobile devices and provide comprehensive, easily accessible tourism information for travelers on the go. We believe that everyone deserves a seamless travel experience, and our project aims to make that possible through cutting-edge technology and thoughtful design.</p>
+                    <p>The Travel Tour Guide acts as your personal travel companion, offering detailed information about attractions, weather forecasts, AI-powered itinerary planning, and distances between locations. Our system also provides rich media content including videos and comprehensive details about places of interest.</p>
+                </div>
+                <div class="about-image">
+                    <img src="dal-lake-1.jpg" alt="Beautiful Dal Lake scenery">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section key-features-section"> <!-- Key Features - with specific class for gradient -->
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3>Location-Based Information</h3>
+                    <p>Get detailed information about attractions, restaurants, and accommodations near you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌦️</div>
+                    <h3>Live Weather Forecast</h3>
+                    <p>Access up-to-date weather information to plan your activities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>AI Itinerary Planner</h3>
+                    <p>Generate personalized travel plans using AI based on your interests and duration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section"> <!-- Meet Our Team -->
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="team">
+                <div class="team-member">
+                    <div class="team-image-placeholder">
+                        <img src="Pranshul.jpg" alt="Photo of Pranshul Sukhwal">
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">Pranshul Sukhwal</h3>
+                        <p class="team-role">Lead Developer</p>
+                        <p>Specializes in web application development and user interface design.</p>
+                    </div>
+                </div>
+                <div class="team-member">
+                     <div class="team-image-placeholder">
+                        <div class="team-initial-circle">A</div> <!-- Fallback Initial -->
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">Rai Adarsh</h3>
+                        <p class="team-role">Frontend & Data Integration</p>
+                        <p>Focuses on API integrations and tourism data mashups.</p>
+                    </div>
+                </div>
+                <div class="team-member">
+                     <div class="team-image-placeholder">
+                        <img src="Rahul Sharma.jpg" alt="Photo of Rahul Sharma">
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">Rahul Sharma</h3>
+                        <p class="team-role">Documentation & QA</p>
+                        <p>Ensures project documentation is clear and performs quality assurance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Travel Experience?</h2>
+            <p>Use our Travel Guide System today and explore the world like never before.</p>
+            <a href="index.html#itinerarySection" class="btn">Plan Your Trip Now</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Travel Tour Guide. All rights reserved.</p>
+            <p>Developed by Pranshul Sukhwal, Rahul Sharma, and Rai Adarsh</p>
+        </div>
+    </footer>
+
+    <script>
+    // Authentication State & UI for header nav
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('authToken');
+        const userName = localStorage.getItem('userName');
+        const navLoginLink = document.getElementById('navLoginLink');
+        const navLogoutLink = document.getElementById('navLogoutLink');
+
+        if (token && userName) {
+            if(navLoginLink) navLoginLink.style.display = 'none';
+            if(navLogoutLink) navLogoutLink.style.display = 'inline';
+        } else {
+            if(navLoginLink) navLoginLink.style.display = 'inline';
+            if(navLogoutLink) navLogoutLink.style.display = 'none';
+        }
+    });
+
+    function logoutUser() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userName');
+        window.location.href = 'login.html'; // Redirect to login page
+    }
+    </script>
+</body>
+</html>

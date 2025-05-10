@@ -1,0 +1,1543 @@
+/* General Resets and Body Styles from aboutus.html and index.html */
+:root {
+            --primary-accent: #ff6700; /* Bright Orange */
+            --secondary-accent: #ff8533; /* Lighter Orange for hover */
+            --text-light: #f0f0f0;      /* Light text for readability on dark */
+            --text-medium: #cccccc;     /* Slightly dimmer text */
+            --bg-dark-primary: #0a0a0a; /* Very dark primary background */
+            --bg-dark-secondary: #121212; /* Slightly lighter dark for sections */
+            --card-dark-bg: #1f1f1f;    /* Dark card background */
+            --card-dark-shadow: rgba(255, 255, 255, 0.05);
+            --card-dark-hover-shadow: rgba(255, 255, 255, 0.1);
+            --border-radius-base: 8px;
+            --border-radius-large: 10px;
+            --font-family-sans-serif: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+body {
+    color: #333; /* from aboutus.html */
+    line-height: 1.6; /* from aboutus.html */
+    background-color: black; /* from style.css (index.html context) */
+    /* Note: aboutus.html had background-color: #f9f9f9; This will be overridden by 'black' if both apply.
+       You might need to scope background colors per page if they differ. */
+}
+
+/* Container style from aboutus.html */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Header styles from aboutus.html */
+header { /* This general header style might conflict with specific page headers */
+    background-color: black;
+    color: white; /* from aboutus.html */
+    padding: 2rem 0; /* from aboutus.html */
+    text-align: center; /* from aboutus.html */
+}
+
+/* Specific header style from index.html context (background-color: black) */
+/* To make index.html header black, you'd need to target it specifically or let body background show */
+/* Example: body > header { background-color: black; } if it's a direct child and for index.html only */
+
+
+/* Navigation Styles from index.html (overlay nav) */
+.Navigation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: black; /* from style.css (index.html context) */
+    box-shadow: 0 6px 6px #16161d; /* from style.css (index.html context) */
+    z-index: 9999;
+    height: auto; /* Adjusted from 6% to auto for content */
+    padding: 5px 0; /* Added some padding */
+}
+
+.Navigation span { /* For the "Travel Guide" text next to hamburger */
+    font-size: 25px;
+    cursor: pointer;
+    color: white;
+    padding-left: 10px;
+    line-height: 40px; /* Align with logo if logo is 40px height */
+}
+
+.logo {
+    /* from style.css (index.html context) */
+    border: 2px solid #ff6700;
+    border-radius: 50%;
+    padding: 2px; /* Reduced padding for smaller logo */
+    width: 40px; /* Consistent small logo */
+    height: 40px;
+    float: right; /* Position logo to the right */
+    margin-right: 20px;
+    margin-top: 5px; /* Align with text */
+}
+
+
+.overlay {
+  height: 0%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.9);
+     background-image:linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)) ,url(dynamic.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+  overflow-y: hidden;
+  transition: 0.6s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  padding: 10px 15px; /* Increased padding */
+  text-decoration: none;
+  font-size: 32px; /* Slightly smaller */
+  color: #f1f1f1; /* Brighter color */
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #ff6700; /* Theme color on hover */
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+  color: #f1f1f1; /* Ensure close button is visible */
+}
+
+
+/* Carousel Styles from index.html */
+.container-carousel {
+    background-color: black;
+    margin: 0px;
+    padding: 0px;
+    height: 95vh; /* Reduced slightly from 100vh to account for nav */
+    width: 100%; /* Use 100% instead of auto */
+    background-size: cover;
+    background-position: center;
+    margin-top: 50px; /* Approximate height of .Navigation */
+}
+/* Bootstrap carousel will handle its internal image styling.
+   Ensure your images within .carousel-inner .item img have style="width:100%;height:95vh;" as in your HTML */
+
+
+/* General Section Styles from aboutus.html and index.html */
+section { /* General section styling from index.html context */
+    background-color: black;
+    /*  background-image: url(dynamic.gif); /* Keep if dynamic.gif exists */
+    padding: 20px 0; /* Add some default padding */
+}
+
+.section { /* More specific .section class from aboutus.html */
+    padding: 5rem 0; /* This is quite large, adjust if needed */
+}
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.2rem;
+    color: #2c3e50; /* This is for light backgrounds, override for dark */
+    position: relative;
+}
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #3498db; /* This is for light backgrounds, override for dark */
+    margin: 1rem auto 0;
+}
+
+/* For dark theme sections (like in index.html) */
+section h1, section h3 { /* Titles within dark sections */
+    color: white;
+}
+section .section-title, section .section-title::after { /* Override for dark theme */
+    color: white;
+    background-color: #ff6700; /* Theme color for dark underline */
+}
+
+
+/* Hero Section from aboutus.html */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/500');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 8rem 2rem;
+    position: relative;
+}
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+.hero p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+
+/* About Content & Features & Team from aboutus.html */
+.about-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3rem;
+}
+.about-text {
+    flex: 1;
+    min-width: 300px;
+    color: #333; /* Ensure text is visible on light background of aboutus.html */
+}
+.about-image {
+    flex: 1;
+    min-width: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+.about-image img { display: block; width:100%; height: auto;}
+
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+.feature-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+.feature-icon {
+    font-size: 2.5rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+.feature-card h3 { color: #2c3e50; } /* Text color for feature card headings */
+.feature-card p { color: #555; } /* Text color for feature card paragraph */
+
+.team {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+.team-member {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+.team-member:hover {
+    transform: translateY(-10px);
+}
+.team-image-placeholder { /* Style from your aboutus.html for team member image */
+    height: 250px;
+    background: linear-gradient(120deg, #3498db, #2c3e50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.team-initial-circle { /* Style from your aboutus.html */
+    width: 150px; height: 150px; background-color: rgba(255,255,255,0.2);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 64px; color: white;
+}
+.team-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+.team-name {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+.team-role {
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+.team-member p { font-size: 0.9em; color: #555;} /* Paragraph text inside team member */
+
+
+/* CTA and Button from aboutus.html */
+.cta {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    text-align: center;
+    padding: 5rem 0;
+    color: white;
+}
+.cta h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+}
+.btn { /* General button style from aboutus.html */
+    display: inline-block;
+    background-color: white;
+    color: #3498db;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.btn:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Headings from style.css (index.html context) */
+h1{ /* General h1 from index.html context */
+    font-size: 30px;
+    padding-left: 20px; /* Reduced from 150px for better responsiveness */
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: white; /* Default for dark theme */
+}
+h1:after{
+  display: block;
+  height: 2px;
+  background-color: #ff6700;
+  content: " ";
+  width: 70px;
+  margin-left: 0; /* Adjusted from 30px to align with padding */
+  margin-top: 10px;
+}
+/* h2 was styled for aboutus.html, may need specific targeting if used in index.html */
+h3{ /* General h3 from index.html context */
+  color:  white;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 40px; /* Reduced from 50px */
+  font-weight: 300;
+  word-spacing: 2px;
+  padding-top: 35px;
+  margin-bottom: 20px; /* Added margin */
+}
+h3:after{
+  display: block;
+  height: 2px;
+  background-color: #ff6700;
+  content: " ";
+  width: 120px;
+  margin: 10px auto 0; /* Adjusted margin */
+}
+h4{ /* General h4 from index.html context */
+    color: white;
+    text-transform: uppercase;
+    font-size: 20px;
+    text-align: center; /* Centered for consistency */
+    margin-bottom: 10px; /* Added margin */
+}
+h4:after{ /* This underline might be too much for all h4s */
+  display: block;
+  height: 2px;
+  background-color: #ff6700;
+  content: " ";
+  width: 60px;
+  margin: 5px auto 0; /* Centered underline */
+}
+h5{ /* General h5 from index.html context */
+    color: white;
+    font-size: 18px; /* Reduced from 20px */
+    text-align: center; /* Centered */
+    padding: 10px;
+}        
+
+
+/* Flip Card Styles from index.html */
+.flip-card {
+  background-color: transparent;
+  width: 100%; /* Make responsive */
+  max-width: 300px; /* Max width */
+  height: 220px; /* Match image height in HTML */
+  perspective: 1000px;
+  margin: 0 auto 20px auto; /* Center and add bottom margin */
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 1.2s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(255,255,255,0.1); /* Lighter shadow for dark bg */
+}
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 15px; /* Added border-radius */
+}
+.flip-card-front {
+  background-color: #1a1a1a; /* Darker shade for front */
+  color: white; /* Ensure text is visible if any */
+}
+.flip-card-front img { /* Style for image inside flip card */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+.flip-card-back {
+  background-color: #222; /* Slightly lighter for back */
+  opacity: 0.95;
+  color: white;
+  transform: rotateY(180deg);
+  padding: 15px; /* Add padding to back */
+  display: flex; /* For centering content */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.flip-card-back h4 { font-size: 1.2em; margin-bottom: 10px; color: #ff6700; }
+.flip-card-back h4:after { display: none; } /* Remove underline for flip-card h4 */
+.zone-card{ /* Links inside flip-card */
+    color: #ccc;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 25px;
+    display: block; /* Make them block for better spacing */
+}
+.zone-card:hover {
+    color: #ff6700;
+    text-decoration: underline;
+}
+
+
+footer{
+    height: 70vh;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 20px;
+  background-image: url(bottom.png);
+    background-position: center;
+
+}
+          .head{
+              position: fixed;
+              left: 0;
+   top: 0;
+   width: 100%;
+          }
+          .foot{
+              position: fixed;
+               left: 0;
+   bottom: 0;
+   width: 100%;
+          }  
+          
+
+.sidebar { /* Footer contact sidebar */
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 10001; /* Above overlay nav */
+  top: 0;
+  left: 0; /* Should be right if button is on right, or adjust button */
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.6s;
+  padding-top: 60px;
+}
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 22px; /* Slightly smaller */
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+.sidebar a:hover {
+  color: #ff6700; /* Theme color */
+}
+.sidebar .closebtn {
+  position: absolute;
+  top: 10px; /* Adjusted */
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+.openbtn { /* Footer contact button */
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #222; /* Darker button */
+  color: white;
+  padding: 10px 15px;
+  border: none; /* Removed border */
+  border-radius: 50%;
+  position: fixed; /* Make it fixed for easy access */
+  bottom: 20px;
+  right: 20px;
+  z-index: 9998; /* Below sidebars */
+}
+.openbtn:hover {
+  background-color: #ff6700; /* Theme color */
+}
+#main { /* Container for openbtn to manage margin shift. May not be needed if btn is fixed */
+  transition: margin-left .5s; /* Or margin-right depending on sidebar position */
+  /* padding: 16px; */ /* Original padding, adjust if needed */
+}
+.social-links{
+  list-style: none;
+  padding-left: 20px; /* Indent social links */
+  margin-top: 20px;
+}
+.social-links li{
+  display: inline-block; /* Changed from inline for better margin control */
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.fa { /* Font Awesome icon styling */
+  padding: 10px; /* Adjusted padding */
+  font-size: 18px; /* Adjusted size */
+  width: 40px; /* Fixed width for consistency */
+  height: 40px; /* Fixed height */
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+  line-height: 20px; /* Vertically center icon text */
+  transition: opacity 0.3s;
+}
+.fa:hover { opacity: 0.7; }
+.fa-facebook { background: #3B5998; color: white; }
+.fa-twitter { background: #55ACEE; color: white; }
+.fa-google { background: #dd4b39; color: white; }
+.fa-instagram { background:#E1306C; color: white; } /* Updated Instagram color */
+.fa-whatsapp { background:  #25d366; color: white; }
+
+
+/* Gridish system from style.css (index.html context) */
+.row {
+    width: 90%; /* Make it more responsive */
+    max-width: 1140px; /* Max width */
+    margin: 0 auto 20px auto; /* Center rows and add bottom margin */
+    zoom: 1; 
+}
+.row:before, .row:after { content:""; display:table; }
+.row:after { clear:both; }
+
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+.col:first-child { margin-left: 0; }
+
+.span-1-of-2 { width: 49.2%; } /* Adjusted from 45% for closer to 50/50 with margin */
+.span-1-of-4 { width: 23.8%; }
+/* Other spans .span-4-of-4, .span-3-of-4, .span-2-of-4, .span-2-of-2 were also defined */
+/* For simplicity, using these two common ones. Add others if specifically used. */
+
+
+/* Image and Text block styling from index.html */
+.image{ /* General image in text/image blocks */
+    padding: 10px; /* Reduced padding */
+    margin-left: 0; /* Remove fixed margin */
+    width: 100%; /* Make responsive */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 350px; /* Max height for these images */
+    object-fit: cover; /* Ensure image covers the area well */
+    position: relative;
+    border: 2px solid  #ff6700;
+    border-radius: 15px; /* Softer radius */
+}   
+.containers { /* Wrapper for image with hover effect */
+    position: relative; /* Needed for overlay absolute positioning */
+    overflow: hidden; /* To contain hover effect */
+    border-radius: 15px;
+}
+.overplays { /* The image itself or a div containing it */
+    transition: transform 0.7s;
+}
+.containers:hover .overplays { /* Hover effect on image container */
+  opacity: 0.9;
+  transform: scale(0.95); /* Slightly less aggressive scale */
+}
+.text{ /* Text block next to image */
+    padding: 20px;
+    margin-left: 0; /* Remove fixed margin */
+    color: white;
+    font-size: 15px; 
+    background-color: transparent; /* Let section background show */
+    position: relative;
+  /* animation-name: example; animation-duration: 4s; animation-iteration-count: 1; */ /* Animation removed for simplicity, can be added back */
+}
+.text a { color: #ff8c00; text-decoration: underline; } /* Styling for links in text */
+.text a:hover { color: #ffa500; }
+
+
+/* About India section from index.html */
+.aboutext{ /* Specific text block for 'Country Info' */
+   width:90%; /* Responsive */
+   max-width: 380px; /* Max width */
+   /* height: 350px; Let content define height */
+   border: 2px solid #ff6700;
+   padding: 20px;
+   line-height: 30px; /* Reduced line height */
+   margin: 20px auto; /* Center if it's standalone */
+   font-size: 15px;
+   color: white;
+   background-color: #1c1c1c; /* Darker background for this box */
+   border-radius: 10px;
+   transition: transform 0.8s; 
+}
+.aboutext:hover{
+    transform: scale(0.97); /* Subtle scale on hover */
+}    
+
+
+/* Packages section from index.html */
+.packages, .packages01 { /* Styling for package image grids */
+    padding: 30px 5%; /* Use percentage for responsive padding */
+}
+.contain { /* Container for individual package image and overlay */
+  position: relative;
+  width: 100%; /* Make it responsive */
+  overflow: hidden; /* To ensure overlay stays within */
+  border-radius: 15px; /* Match other image styles */
+}
+.imag { /* Package image */
+  display: block; /* Remove extra space below image */
+  width: 100%;
+  height: 200px; /* Fixed height for package images */
+  object-fit: cover;
+  transition: transform 0.5s ease; /* Smooth zoom for image */
+}
+.contain:hover .imag {
+    transform: scale(1.1); /* Zoom image on hover */
+}
+.overl { /* Overlay for package image */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.7); /* Semi-transparent overlay */
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  transition: .5s ease;
+}
+.contain:hover .overl {
+  height: 100%; /* Show full overlay on hover */
+}
+.tex { /* Text inside package overlay */
+  white-space: normal; /* Allow text to wrap */
+  color: white;
+  font-size: 18px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 90%; /* Prevent text from touching edges */
+}  
+.button.btn-pack{ /* Button inside package overlay */
+  position: absolute;
+  bottom: 15px; /* Position at bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff6700;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.3s;
+}   
+.button.btn-pack:hover{
+    background-color: #e65c00;
+    transform: translateX(-50%) scale(1.05);
+}
+
+
+/* Update Event Marquee from index.html */
+.update-event { /* Section containing marquee */
+    background-color: #111; /* Darker background for this section */
+    padding: 30px 0;
+    /* margin-bottom: -200px; This caused layout issues, removed */
+}
+.update-event h3 { color: #ff6700; } /* Style title for this section */
+.update-event h3:after { background-color: #ff6700; }
+
+.container.microsoft { /* Marquee container */
+    width: 80%; /* Responsive width */
+    max-width: 600px; 
+    height: 200px; /* Adjust height as needed */
+    margin: 2em auto;
+    overflow: hidden;
+    background: #222; /* Background for marquee box */
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 10px; /* Padding inside the marquee box */
+}
+.marquee {
+    font-size: 15px;
+    color: #ddd; /* Lighter text for dark bg */
+    position: relative;
+    box-sizing: border-box;
+    animation: marquee 15s linear infinite; /* Slower animation */
+    line-height: 1.8; /* Better readability */
+}
+.marquee:hover {
+    animation-play-state: paused;
+}
+@keyframes marquee {
+    0%   { top: 100%; } /* Start from bottom */
+    100% { top: -100%; } /* Scroll to top (adjust based on content height) */
+}
+.microsoft:before, .microsoft:after { /* Fades for marquee */
+    left: 0;
+    z-index: 1;
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    width: 100%; 
+    height: 50px; /* Height of the fade */
+    background: linear-gradient(to bottom, #222, transparent); /* Top fade */
+}
+.microsoft:after {
+    bottom: 0;
+    top: auto; /* Override top from :before */
+    background: linear-gradient(to top, #222, transparent); /* Bottom fade */
+}
+.vanity { /* Text below marquee */
+    color: #aaa;
+    text-align: center;
+    font: .85em 'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+    margin-top: 10px;
+}
+.vanity a, .marquee a {
+    font-size: 1em; /* Relative to parent */
+    color: #ff8c00; /* Theme link color */
+    transition: color .5s;
+    text-decoration: none;
+}
+.vanity a:hover, .marquee a:hover {
+    color: #ffa500; /* Lighter theme color on hover */
+}
+.update-event h5 { /* Copyright text */
+    color: #777;
+    font-size: 0.9em;
+    margin-top: 20px;
+}
+
+
+/* Payment Section Link from index.html */
+.Payment {
+    padding: 20px 0;
+    text-align: center;
+    background-color: #0a0a0a; /* Very dark background */
+}
+.Payment h3 a {
+    color: #ff6700;
+    text-decoration: none;
+    font-size: 1.5em;
+    transition: color 0.3s;
+}
+.Payment h3 a:hover {
+    color: #e65c00;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.2rem; }
+    .hero p { font-size: 1rem; }
+    .section-title { font-size: 1.8rem; }
+    .col { width: 100% !important; margin-left: 0 !important; float: none; } /* Stack columns */
+    .row { width: 95%; }
+    h1 { font-size: 24px; padding-left: 10px; }
+    h3 { font-size: 28px; }
+    .container-carousel { margin-top: 45px; height: 60vh; } /* Adjust for smaller screens */
+    .logo { margin-right: 10px; }
+    .Navigation span { font-size: 20px; }
+    .overlay a { font-size: 24px; }
+    .overlay .closebtn { font-size: 40px; top: 15px; right: 25px; }
+    .flip-card { height: 200px; }
+    .aboutext { line-height: 26px; }
+    .packages, .packages01 { padding: 20px 5%; }
+    .sidebar { padding-top: 40px; }
+    .sidebar a { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+    .hero { padding: 4rem 1rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .hero p { font-size: 0.9rem; }
+    .section { padding: 3rem 0; }
+    .section-title { font-size: 1.5rem; }
+    .section-title::after { width: 60px; height: 3px; }
+    .feature-card { padding: 1rem; }
+    .feature-icon { font-size: 2rem; }
+    .team-image-placeholder { height: 180px; }
+    .team-initial-circle { width: 80px; height: 80px; font-size: 36px; }
+    .cta { padding: 3rem 0; }
+    .cta h2 { font-size: 1.8rem; }
+    .btn { padding: 0.6rem 1.5rem; font-size: 0.9rem; }
+    .container-carousel { height: 50vh; }
+    .image { max-height: 250px; }
+    .update-event h3 { font-size: 1.8em; }
+    .container.microsoft { height: 150px; }
+    .marquee { font-size: 13px; line-height: 1.6; }
+}
+
+/* General Resets and Body Styles from aboutus.html and index.html */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    /* color: #333; from aboutus.html - overridden by index.html context */
+    /* line-height: 1.6; from aboutus.html - overridden by index.html context */
+    background-color: black; /* from your original style.css for index.html */
+}
+
+/* Styles specifically for aboutus.html (if you want its different background) */
+body.about-page {
+    color: #333;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+}
+/* You would add class="about-page" to the <body> tag in aboutus.html */
+
+
+/* Container style from aboutus.html - useful globally */
+.container { /* Bootstrap also has a .container, this might conflict or complement */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem; /* Reduced padding for better fit with Bootstrap grid */
+}
+
+/* Header styles from aboutus.html (specific for its header) */
+header.about-header {
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    color: white;
+    padding: 1.5rem 0;
+    text-align: center;
+}
+header.about-header h2 { margin: 0; font-size: 1.8em;}
+.nav-links { margin-top: 10px; } /* For aboutus.html header nav */
+.nav-links a { color: white; text-decoration: none; margin: 0 15px; font-size: 0.9em; }
+.nav-links a:hover { text-decoration: underline; }
+
+
+/* Navigation Styles from your original index.html (overlay nav) */
+.Navigation {
+    position: absolute; /* Or fixed if you want it to stay on scroll before carousel */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: black;
+    box-shadow: 0 6px 6px #16161d;
+    z-index: 9999; /* High z-index */
+    padding: 5px 0; /* Adjusted padding */
+    display: flex; /* For aligning items */
+    align-items: center; /* Vertically align items */
+    justify-content: space-between; /* Space out title and logo */
+}
+
+.Navigation .nav-title-group { /* Group for hamburger and title */
+    display: flex;
+    align-items: center;
+}
+
+.Navigation .nav-title-group span { /* Hamburger and "Travel Guide" text */
+    font-size: 25px;
+    cursor: pointer;
+    color: white;
+    padding-left: 10px;
+    margin-right: 5px; /* Space between hamburger and text */
+}
+
+.logo {
+    border: 2px solid #ff6700;
+    border-radius: 50%;
+    padding: 2px;
+    width: 40px;
+    height: 40px;
+    margin-right: 20px; /* Keep logo to the right */
+}
+
+.overlay { /* Fullscreen overlay nav */
+  height: 0%;
+  width: 100%;
+  position: fixed;
+  z-index: 10000; /* Highest z-index */
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0, 0.97); /* Very dark overlay */
+  /* background-image:linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)) ,url(dynamic.gif); */ /* If you have dynamic.gif */
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-y: hidden;
+  transition: 0.5s; /* Smoother transition */
+}
+
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  padding: 12px 15px;
+  text-decoration: none;
+  font-size: 30px;
+  color: #f1f1f1;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #ff6700; /* Theme color */
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+  color: #f1f1f1;
+}
+
+
+/* Carousel Styles from your original index.html */
+.container-carousel {
+    background-color: black;
+    margin: 0; /* Reset margin */
+    padding: 0; /* Reset padding */
+    width: 100%;
+    height: 95vh; /* As per your inline style */
+    /* margin-top: 55px; /* Height of .Navigation + padding. Adjust if nav height changes */
+    position: relative; /* To ensure it's a block formatting context after floated nav */
+    padding-top: 55px; /* Add padding for the fixed/absolute navigation bar */
+
+}
+#myCarousel .carousel-caption h3 { /* Style for caption text */
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    font-size: 2.5em; /* Make caption title larger */
+    margin-bottom: 20px;
+}
+/* Ensure carousel images take full height as per your inline styles:
+   .carousel-inner > .item > img { width:100%; height:95vh; object-fit: cover; }
+   Bootstrap might override, so being explicit can help.
+*/
+
+
+/* General Section Styles (for index.html's dark theme) */
+/* The <header> tag in your index.html is used for the "Railways" section */
+/* The <section class="hotels/culture/food/places/nature/etc."> */
+body > header, /* For the Railways section */
+section {
+    background-color: black; /* Default for index.html sections */
+    padding: 40px 0; /* Consistent padding for sections */
+    color: white; /* Default text color for these sections */
+}
+section.About-India { /* If this section needs a slightly different background */
+    background-color: #0a0a0a;
+}
+
+
+/* Headings from your original style.css (for index.html context) */
+h1{
+    font-size: 30px;
+    padding-left: 15px; /* Consistent padding */
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: white;
+}
+h1:after{
+  display: block;
+  height: 2px;
+  background-color: #ff6700;
+  content: " ";
+  width: 70px;
+  margin-left: 0; /* Align with text */
+  margin-top: 10px;
+}
+
+h3{ /* For section titles like "Travel Packages", "Upcoming Events" */
+  color:  white;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 3em; /* Original large size */
+  font-weight: 300;
+  word-spacing: 2px;
+  padding-top: 35px;
+  margin-bottom: 15px;
+}
+h3:after{
+  display: block;
+  height: 2px;
+  background-color: #ff6700;
+  content: " ";
+  width: 120px;
+  margin: 10px auto 25px auto; /* Add bottom margin */
+}
+h4{ /* For flip card back titles */
+    color: white;
+    text-transform: uppercase;
+    font-size: 20px;
+    /* text-align: center; -- Let specific contexts define alignment */
+}
+h5{ /* For copyright text */
+    color: #aaa; /* Lighter for better readability on black */
+    font-size: 1em; /* Relative size */
+    text-align: center;
+    padding: 10px;
+}        
+
+
+/* Grid system from your original style.css */
+.row {
+    width: 90%;
+    max-width: 1140px;
+    margin: 0 auto 30px auto; /* Add more bottom margin between rows */
+    zoom: 1;
+}
+.row:before, .row:after { content:""; display:table; }
+.row:after { clear:both; }
+
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+.col:first-child { margin-left: 0; }
+
+.span-1-of-2 { width: 49.2%; } /* (100 - 1.6) / 2 */
+.span-1-of-4 { width: 23.8%; } /* (100 - (1.6*3)) / 4 */
+/* Add other span-X-of-Y classes if you use them */
+
+
+/* Image and Text block styling from your original style.css */
+.image{
+    padding: 10px; /* Keep some padding */
+    width: 100%; /* Make it fill the .overplays container */
+    height: 350px; /* Fixed height for these content images */
+    object-fit: cover; /* Cover the area, might crop */
+    border: 2px solid #ff6700;
+    border-radius: 28px; /* Original radius */
+}   
+.containers { /* Wrapper for image with hover effect */
+    position: relative;
+    border-radius: 28px; /* Match image radius if image is direct child */
+    overflow: hidden; /* If scale effect is used */
+}
+.overplays { /* This div contains the image */
+    transition: transform .7s;
+}
+.containers:hover .overplays {
+  opacity: 0.9; /* Slight fade on hover */
+  transform: scale(0.95); /* Original scale effect */
+}
+.text{ /* Text block next to image */
+    padding: 10px 20px; /* Add some horizontal padding */
+    color: white;
+    font-size: 15px; 
+    line-height: 1.7; /* Improve readability */
+    /* background-color: black; -- Inherits from section */
+    /* Removed animation for now */
+}
+.text a { color: #ff8c00; text-decoration: none; }
+.text a:hover { color: #ffa500; text-decoration: underline; }
+
+
+/* About India section from your original style.css */
+.aboutext{
+   width:90%;
+   max-width: 420px; /* Slightly wider if needed */
+   border: 2px solid #ff6700;
+   padding: 25px; /* More padding */
+   line-height: 1.8; /* Better line spacing */
+   margin: 20px auto; /* Center it if it's the only element in its column */
+   font-size: 15px;
+   color: white;
+   background-color: #181818; /* Slightly off-black */
+   border-radius: 10px;
+   transition: transform .8s, box-shadow 0.5s; 
+}
+.aboutext:hover{
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0 10px 20px rgba(255,103,0,0.2); /* Theme-colored shadow */
+}    
+
+
+/* Packages section from your original style.css */
+.packages, .packages01 {
+    padding: 30px 2%; /* Adjust padding */
+}
+.contain { /* Container for individual package image and overlay */
+  position: relative;
+  width: 100%;
+  border-radius: 28px; /* Original radius */
+  overflow: hidden;
+  margin-bottom: 20px; /* Space between package items if they stack */
+}
+.imag { /* Package image */
+  display: block;
+  width: 100%;
+  height: 220px; /* Consistent height for package images */
+  object-fit: cover;
+  border: 2px solid #ff6700; /* Border from original .image style */
+  padding: 0; /* Remove padding if border is on .imag itself */
+  border-radius: 28px; /* Match .contain */
+  transition: transform 0.5s ease;
+}
+.contain:hover .imag {
+    transform: scale(1.05); /* Subtle zoom */
+}
+.overl { /* Overlay for package image */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.8); /* Darker overlay */
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  transition: .5s ease;
+  border-radius: 0 0 26px 26px; /* Match bottom radius of .imag */
+}
+.contain:hover .overl {
+  height: 50%; /* Original overlay height */
+}
+.tex { /* Text inside package overlay */
+  white-space: nowrap; 
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 35%; /* Adjust vertical position */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  text-align: center;
+}  
+.button.btn-pack{ /* Button inside package overlay */
+  font-family: 'Arial', sans-serif; /* Consistent font */
+  border-radius: 5px;
+  border:none;
+  position: absolute;
+  bottom: 10px; /* Position from bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  cursor:pointer;
+  font-size:16px; /* Slightly smaller */
+  font-weight:bold;
+  padding : 8px 20px; /* Adjusted padding */
+  color:white;
+  text-decoration: none;
+  background: #ff6700; /* Original background */
+  transition: background-color 0.3s , transform 0.3s;
+}   
+.button.btn-pack:hover{
+    background-color: #e65c00; /* Darker shade */
+    transform: translateX(-50%) scale(1.05);
+}
+
+
+/* Flip Card Styles (for North/South/East/West India) from original */
+.flip-card {
+  background-color: transparent;
+  width: 100%; /* Full width of its column */
+  max-width: 300px; /* Max width as per original image */
+  height: 220px; /* Match original image style */
+  perspective: 1000px;
+  margin: 0 auto 20px auto; /* Center and add margin */
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 1.2s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(255,255,255,0.1); /* Adjusted for dark theme */
+}
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+  white-space: normal;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 15px; /* Consistent rounded corners */
+}
+.flip-card-front {
+  background-color: #1c1c1c; /* Dark background for front */
+  white-space: normal;
+  /* Image is placed inside this div in HTML */
+}
+.flip-card-front img {
+    width: 100%;
+    white-space: normal;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px; /* Match parent */
+}
+.flip-card-back {
+  background-color: #222; /* Slightly different dark shade for back */
+  white-space: normal;
+  opacity: 0.95; /* Slight transparency */
+  color: white;
+  transform: rotateY(180deg);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.flip-card-back h4 { /* Title on back of flip card */
+    font-size: 1.2em;
+    color: #ff6700;
+    margin-bottom: 8px;
+}
+.flip-card-back h4:after { display: none; } /* Remove general h4 underline */
+
+.zone-card{ /* Links on flip card back */
+    color: #ddd;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 3px; /* Increased line height */
+    display: block;
+}
+.zone-card:hover {
+    color: #ff6700;
+    text-decoration: underline;
+}
+
+
+/* Payment Section Link */
+.Payment {
+    padding: 30px 0;
+    text-align: center;
+    background-color: #0f0f0f; /* Slightly different dark shade */
+}
+.Payment h3 a {
+    color: #ff6700;
+    text-decoration: none;
+    font-size: 1.8em; /* Larger link */
+    transition: color 0.3s, text-shadow 0.3s;
+}
+.Payment h3 a:hover {
+    color: #e65c00;
+    text-shadow: 0 0 5px #ff6700;
+}
+
+
+/* Update Event Marquee */
+.update-event {
+    background-color: #111;
+    padding: 40px 0;
+}
+.update-event h3 { color: #ff6700; } /* Ensure theme color */
+.update-event h3:after { background-color: #ff6700; } /* Ensure theme color */
+
+.container.microsoft { /* Marquee container from original */
+    width: 90%; 
+    max-width: 600px; 
+    height: 250px; /* Original height */
+    margin: 2em auto;
+    overflow: hidden;
+    background: #1c1c1c; /* Darker background */
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+.marquee {
+    font-size: 15px;
+    color: #ccc; /* Lighter text */
+    position: absolute; /* Change to absolute for better animation control */
+    width: 100%; /* Full width for text */
+    box-sizing: border-box;
+    animation: marquee 20s linear infinite; /* Slower animation for more text */
+    padding: 20px;
+    line-height: 1.7; /* Better readability */
+    text-align: left; /* Align text left */
+}
+.marquee:hover { animation-play-state: paused; }
+
+@keyframes marquee {
+    0%   { transform: translateY(100%); } /* Start from bottom */
+    100% { transform: translateY(-100%); } /* Scroll fully to top */
+}
+/* Fades for marquee (optional, but good for effect) */
+.microsoft:before, .microsoft:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 40px; /* Height of the fade */
+    z-index: 2; /* Above marquee text */
+    pointer-events: none; /* Allow clicking through fade */
+}
+.microsoft:before {
+    top: 0;
+    background: linear-gradient(to bottom, #1c1c1c 60%, transparent);
+}
+.microsoft:after {
+    bottom: 0;
+    background: linear-gradient(to top, #1c1c1c 60%, transparent);
+}
+
+.vanity { /* Text below marquee */
+    color: #999; /* Lighter grey */
+    text-align: center;
+    font: .9em 'Segoe UI', Tahoma, Helvetica, Sans-Serif; /* Slightly larger */
+    margin-top: 20px;
+}
+.vanity a, .marquee a {
+    font-size: 1em;
+    color: #ff8c00;
+    transition: color .5s;
+    text-decoration: none;
+}
+.vanity a:hover, .marquee a:hover {
+    color: #ffa500;
+}
+.update-event h5 { /* Copyright text */
+    color: #888; /* Slightly lighter */
+    font-size: 0.95em;
+    margin-top: 20px;
+}
+
+
+/* Footer styles (sidebar contact) */
+footer{
+  padding: 10px; /* Minimal padding, button is fixed */
+  background-color: #111; /* Dark footer background */
+  color: white;
+  position: relative; /* For the fixed button positioning context if #main is used */
+  min-height: 70px; /* Ensure some space for the button if content is short */
+}
+
+#mySidebar.sidebar { /* More specific selector for footer sidebar */
+  height: 100%;
+  width: 0; /* Initially hidden */
+  position: fixed;
+  z-index: 10001;
+  top: 0;
+  left: 0; /* Sidebar slides from left */
+  background-color: #0a0a0a; /* Very dark */
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+#mySidebar.sidebar a {
+  padding: 10px 15px 10px 32px; /* Adjusted padding */
+  text-decoration: none;
+  font-size: 22px;
+  color: #999; /* Muted color */
+  display: block;
+  transition: 0.3s;
+}
+#mySidebar.sidebar a:hover {
+  color: #ff6700;
+}
+#mySidebar.sidebar .closebtn {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  font-size: 40px;
+}
+button.openbtn { /* Styling for the contact button */
+  font-size: 24px; /* Larger icon */
+  cursor: pointer;
+  background-color: #ff6700; /* Theme color */
+  color: white;
+  padding: 12px 15px; /* Slightly larger padding */
+  border: none;
+  border-radius: 50%;
+  position: fixed; /* Fixed position */
+  bottom: 30px;
+  right: 30px;
+  z-index: 9998; /* Ensure it's above most content but below overlays */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: background-color 0.3s, transform 0.3s;
+}
+button.openbtn:hover {
+  background-color: #e65c00; /* Darker theme color */
+  transform: scale(1.1);
+}
+#main { /* This div wraps the openbtn and helps with the push effect if sidebar is not fixed */
+  transition: margin-left .5s;
+  /* No specific padding needed here if button is fixed */
+}
+
+/* Social links inside the sidebar */
+.social-links{
+  list-style: none;
+  padding: 20px 0 0 32px; /* Align with sidebar links */
+}
+.social-links li{
+  display: inline-block;
+  margin-right: 12px; /* More space */
+  margin-bottom: 12px;
+}
+.fa { /* Font Awesome icon styling */
+  padding: 12px; /* Consistent padding */
+  font-size: 20px;
+  width: 44px; /* Make them slightly larger */
+  height: 44px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+  line-height: calc(44px - 24px); /* Adjust line-height for vertical center */
+  transition: opacity 0.3s, transform 0.2s;
+}
+.fa:hover { opacity: 0.8; transform: scale(1.1); }
+/* FA colors remain the same */
+.fa-facebook { background: #3B5998; color: white; }
+.fa-twitter { background: #55ACEE; color: white; }
+.fa-google { background: #dd4b39; color: white; }
+.fa-instagram { background:#E1306C; color: white; }
+.fa-whatsapp { background:  #25d366; color: white; }
+
+
+/* Responsive Adjustments from original style.css */
+@media screen and (max-height: 450px) {
+  .overlay {overflow-y: auto;} /* For overlay nav */
+  .overlay a {font-size: 20px}
+  .overlay .closebtn { font-size: 40px; top: 15px; right: 35px; }
+
+  #mySidebar.sidebar {padding-top: 15px;} /* For footer contact sidebar */
+  #mySidebar.sidebar a {font-size: 18px;}
+}
+
+@media only screen and (max-width: 768px) { /* More general responsive stacking for .col */
+    .col.span-1-of-2, .col.span-1-of-4 {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 20px; /* Add space between stacked columns */
+    }
+    .row { width: 95%; }
+    .container-carousel {
+        /* margin-top: 50px; Already applied above */
+        height: 60vh; /* Shorter carousel on tablets */
+    }
+    .Navigation span { font-size: 22px; } /* Slightly smaller title text */
+    .logo { width: 35px; height: 35px; margin-top:7px; margin-right: 15px;}
+    h1 { font-size: 26px; }
+    h3 { font-size: 2.5em; }
+}
+
+@media only screen and (max-width: 480px) {
+    .Navigation { padding: 3px 0;}
+    .Navigation .nav-title-group span { font-size: 18px; padding-left: 5px; }
+    .logo { width: 30px; height: 30px; margin-top: 4px; margin-right: 10px; border-width: 1px;}
+    .container-carousel { height: 50vh; padding-top: 45px; /* Adjust for nav */ }
+    #myCarousel .carousel-caption h3 { font-size: 1.8em; }
+    h1 { font-size: 22px; padding-left: 10px; }
+    h1:after { width: 50px; }
+    h3 { font-size: 2em; }
+    h3:after { width: 80px; }
+    .text { font-size: 14px; padding: 10px; }
+    .image { height: 250px; border-radius: 20px; }
+    .aboutext { padding: 15px; line-height: 1.6; font-size: 14px;}
+    .imag { height: 180px; } /* Package images */
+    .tex { font-size: 16px; } /* Text in package overlay */
+    .button.btn-pack { font-size: 13px; padding: 6px 12px; }
+    .flip-card { height: 180px; }
+    .flip-card-back { padding: 10px; }
+    .flip-card-back h4 { font-size: 1.1em; margin-bottom: 8px; }
+    .zone-card { font-size: 13px; line-height: 22px; }
+    .container.microsoft { height: 180px; } /* Marquee */
+    .marquee { font-size: 13px; line-height: 1.6; padding: 15px;}
+    button.openbtn { bottom: 15px; right: 15px; padding: 10px 12px; font-size: 20px;}
+}
+
+/* Styles from aboutus.html that might be globally useful or specific */
+body.about-page .section { padding: 4rem 0; }
+body.about-page .section-title { text-align: center; margin-bottom: 2.5rem; font-size: 2rem; color: #2c3e50; position: relative; }
+body.about-page .section-title::after { content: ''; display: block; width: 70px; height: 3px; background-color: #3498db; margin: 0.8rem auto 0; }
+body.about-page .hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/500');
+    background-size: cover; background-position: center; color: white;
+    text-align: center; padding: 6rem 2rem; position: relative;
+}
+body.about-page .hero-content { position: relative; z-index: 1; }
+body.about-page .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); }
+body.about-page .hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); }
+body.about-page .about-content { display: flex; flex-wrap: wrap; align-items: center; gap: 2.5rem; }
+body.about-page .about-text { flex: 1; min-width: 300px; color: #333; }
+body.about-page .about-image { flex: 1; min-width: 300px; border-radius: 8px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+body.about-page .about-image img { display: block; width: 100%; height: auto; }
+body.about-page .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+body.about-page .feature-card { background-color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s ease; text-align: center; }
+body.about-page .feature-card:hover { transform: translateY(-8px); }
+body.about-page .feature-icon { font-size: 2.2rem; color: #3498db; margin-bottom: 0.8rem; }
+body.about-page .feature-card h3 { color: #2c3e50; }
+body.about-page .feature-card p { color: #555; }
+body.about-page .team { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+body.about-page .team-member { background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
+body.about-page .team-member:hover { transform: translateY(-8px); }
+body.about-page .team-image-placeholder { height: 200px; background: linear-gradient(120deg, #3498db, #2c3e50); display: flex; align-items: center; justify-content: center;}
+body.about-page .team-initial-circle { width: 100px; height: 100px; background-color: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48px; color: white; }
+body.about-page .team-info { padding: 1.2rem; text-align: center; }
+body.about-page .team-name { font-size: 1.1rem; margin-bottom: 0.4rem; color: #2c3e50; }
+body.about-page .team-role { color: #3498db; margin-bottom: 0.8rem; font-size: 0.9em; }
+body.about-page .team-member p { font-size: 0.85em; color: #555; }
+body.about-page footer { background-color: #2c3e50; color: white; text-align: center; padding: 1.5rem 0; } /* Footer for aboutus page */
+body.about-page .cta { background: linear-gradient(135deg, #3498db, #2c3e50); text-align: center; padding: 4rem 0; color: white; }
+body.about-page .cta h2 { font-size: 2rem; margin-bottom: 1.2rem; }
+body.about-page .btn { display: inline-block; background-color: white; color: #3498db; padding: 0.7rem 1.8rem; border-radius: 50px; text-decoration: none; font-weight: bold; transition: all 0.3s ease; }
+body.about-page .btn:hover { background-color: #f0f0f0; transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+@media (max-width: 768px) {
+    body.about-page .hero h1 { font-size: 2rem; } body.about-page .hero p { font-size: 1rem; }
+    body.about-page .section-title { font-size: 1.6rem; }
+    body.about-page .about-content { flex-direction: column; }
+}
+

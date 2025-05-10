@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- Removed project.css and other bootstrap/aos links if not used or styles are self-contained -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trip Profiles - Travel Guide</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; background-color: #111; /* Dark background */}
+        #main-trip-container{ /* Renamed to avoid conflict with footer's #main */
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            transition: background-image 1.5s ease-in-out; /* Smooth background transition */
+            background-position: center;
+            background-size: cover; 
+            overflow: hidden; /* Prevent scrollbars if content overflows slightly */
+        }
+        .navbar-trip{ /* Renamed */
+            width: 95%; /* Slightly wider */
+            margin: auto;
+            display: flex;
+            align-items: center;
+            padding-top: 20px; /* Reduced padding */
+            position: relative; /* For z-index if needed */
+            z-index: 10;
+        }
+        .navbar-trip .home-link-trip { /* Home link style */
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+            background-color: rgba(0,0,0,0.5);
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .navbar-trip .home-link-trip:hover {
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        /* nav{ flex: 1; text-align: right; } */ /* Original nav styling, can be removed if not used */
+        /* nav ul li{ list-style: none; color: #fff; display: inline-block; margin-left: 50px; cursor: pointer; } */
+
+        .circle-box{
+            position: absolute;
+            height: 450px;
+            width: 450px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            overflow: hidden; /* Important for the rotating effect */
+        }
+        svg{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-90deg); /* Start circle from top */
+        }
+        #svgcircle{
+            stroke-dasharray: 1256; /* Circumference of circle with r=200 (2*PI*200) */
+            stroke-dashoffset: 1256; /* Initially, no stroke is visible */
+            transition: stroke-dashoffset 1s ease-in-out;
+        }
+        .circle-box span.step-dot{ /* Class for step dots */
+            position: absolute;
+            height: 12px; /* Slightly larger dots */
+            width: 12px;
+            background: #fff;
+            border-radius: 50%;
+            display: block;
+            cursor: pointer;
+            z-index: 10;
+            border: 2px solid #555; /* Border for better visibility */
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .circle-box span.step-dot:hover {
+            background-color: #ff6700; /* Highlight color */
+            transform: scale(1.2);
+        }
+        /* Positioning the step dots around the circle (example for 5 dots) */
+        /* Angle = (360 / num_dots) * dot_index; X = R * cos(angle); Y = R * sin(angle) */
+        /* For circle-box of 450x450, R is approx 225. Dots are positioned relative to center. */
+        /* Let's assume R for dots is slightly less, say 190px from center of circle-box. */
+        /* Dots positions need to be calculated relative to top-left of circle-box */
+        #step1{ right: 160px;  bottom: 30px; } /* Original positions, might need adjustment */
+        #step2{ left: 56px;  bottom: 106px; }
+        #step3{ left: 60px;  top: 100px; }
+        #step4{ right: 156px;  top: 30px; }
+        #step5{ right: 20px;  top: 220px; } /* This was center-right, adjust if needed */
+
+
+        .user-box{
+            width: 350px;
+            position: absolute;
+            top: 100px; /* Initial position, will be changed by JS */
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: #fff;
+            transition: top 0.8s ease-in-out, opacity 0.8s ease-in-out; /* Smooth transition for user content */
+            opacity: 1;
+        }
+        .user-box .user { /* Styles for individual user profile cards */
+            /* height: 450px; */ /* Let content define height */
+            padding: 20px;
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.1);
+        }
+        .user-box .user img{ /* Profile image */
+            width: 100px; /* Larger profile image */
+            height: 100px;
+            margin-bottom: 15px;
+            border-radius: 50%;
+            border: 3px solid #ff6700; /* Theme color border */
+            object-fit: cover;
+        }
+        .user-box .user h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #ff6700;
+        }
+        .user-box .user p{
+            margin: 15px 0;
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+        .user-box .social img{ /* Social media icons */
+            width: 30px; /* Smaller social icons */
+            border-radius: 0;
+            padding: 5px; /* Reduced padding */
+            margin: 0 5px; /* Spacing between icons */
+            cursor: pointer;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        .user-box .social img:hover {
+            background-color: rgba(255,103,0,0.5);
+        }
+
+        /* Hide all user profiles initially, JS will show the active one */
+        .user-box .user { display: none; }
+        .user-box .user.active { display: block; }
+
+    </style>
+    </head>  
+    <body>
+        <div id="main-trip-container">
+            <div class="navbar-trip">
+                <a href="index.html" class="home-link-trip"> ← Back to Home</a>
+                <!-- Original nav element can be added here if needed -->
+            </div>
+            <div class="circle-box">
+                <svg height="402" width="402">
+                    <circle r="200" cx="201" cy="200" stroke-width="1px" stroke="gray" fill="none"/>
+                </svg>
+                 <svg height="402" width="402">
+                    <circle id="svgcircle" r="200" cx="201" cy="200" stroke-width="2px" stroke="white" fill="none"/>
+                </svg>
+                <div>
+                    <!-- Add 'step-dot' class and data-index for easier JS targeting -->
+                    <span id="step1" class="step-dot" data-index="0"></span>
+                    <span id="step2" class="step-dot" data-index="1"></span>
+                    <span id="step3" class="step-dot" data-index="2"></span>   
+                    <span id="step4" class="step-dot" data-index="3"></span>
+                    <span id="step5" class="step-dot" data-index="4"></span>
+                </div>
+                <div class="user-box" id="userboxx">
+                    <!-- User profiles. Add 'active' class to the first one to be shown -->
+                    <div class="user active">
+                        <img src="person-1.jpg" alt="User 1">
+                        <h1>Alex Johnson</h1>
+                        <p>Loves hiking and mountain adventures. Always looking for the next peak to conquer. Favorite trip: Trekking in the Himalayas.</p>
+                        <div class="social">
+                            <img src="logo.png" alt="FB"> <img src="logo.png" alt="IG"> <img src="logo.png" alt="LI"> <img src="logo.png" alt="TW">
+                        </div>
+                    </div>
+                    <div class="user">
+                        <img src="person-2.jpg" alt="User 2">
+                        <h1>Maria Garcia</h1>
+                        <p>City explorer and foodie. Believes the best way to know a culture is through its cuisine. Favorite trip: Culinary tour of Italy.</p>
+                        <div class="social">
+                             <img src="logo.png" alt="FB"> <img src="logo.png" alt="IG"> <img src="logo.png" alt="LI"> <img src="logo.png" alt="TW">
+                        </div>
+                    </div>
+                    <div class="user">
+                        <img src="person-3.jpg" alt="User 3">
+                        <h1>Sam Lee</h1>
+                        <p>Beach lover and scuba diver. Fascinated by underwater worlds. Favorite trip: Diving in the Great Barrier Reef.</p>
+                        <div class="social">
+                             <img src="logo.png" alt="FB"> <img src="logo.png" alt="IG"> <img src="logo.png" alt="LI"> <img src="logo.png" alt="TW">
+                        </div>
+                    </div>
+                    <div class="user">
+                        <img src="person-4.jpg" alt="User 4">
+                        <h1>Priya Patel</h1>
+                        <p>History buff and museum enthusiast. Enjoys learning about ancient civilizations. Favorite trip: Exploring ruins in Greece.</p>
+                        <div class="social">
+                            <img src="logo.png" alt="FB"> <img src="logo.png" alt="IG"> <img src="logo.png" alt="LI"> <img src="logo.png" alt="TW">
+                        </div>
+                    </div>
+                    <div class="user">
+                        <img src="person-5.jpg" alt="User 5">
+                        <h1>Kenji Tanaka</h1>
+                        <p>Enjoys quiet retreats and nature photography. Captures moments of serenity. Favorite trip: Autumn in Kyoto.</p>
+                        <div class="social">
+                            <img src="logo.png" alt="FB"> <img src="logo.png" alt="IG"> <img src="logo.png" alt="LI"> <img src="logo.png" alt="TW">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<script>
+    const svgCircle = document.getElementById("svgcircle");
+    const stepDots = document.querySelectorAll(".step-dot");
+    const mainContainer = document.getElementById("main-trip-container");
+    const userProfiles = document.querySelectorAll(".user-box .user");
+    
+    const totalSteps = 5; // Total number of profiles/steps
+    const circleCircumference = 1256; // As in your original style
+
+    // Background images for each step
+    const backgrounds = [
+        "img-1.jpg", // for step 1 (index 0)
+        "img-2.jpg", // for step 2 (index 1)
+        "img-3.jpg", // for step 3 (index 2)
+        "img-4.jpg", // for step 4 (index 3)
+        "img-5.jpg"  // for step 5 (index 4)
+    ];
+
+    let currentUserIndex = 0;
+
+    function updateDisplay(index) {
+        // Update SVG circle progress
+        // Offset decreases as we progress. Full circle = 0 offset. Start = max offset.
+        const progress = (totalSteps - 1 - index) / (totalSteps - 1); // progress from 1 (start) to 0 (end)
+        svgCircle.style.strokeDashoffset = circleCircumference * progress;
+        if (index === totalSteps -1) { // Last step, complete the circle if desired by going to 0
+            svgCircle.style.strokeDashoffset = "0";
+        } else if (index === 0) { // First step, almost full offset
+             svgCircle.style.strokeDashoffset = circleCircumference * (1 - (1 / (totalSteps * 2) ) ); // Small initial part
+        } else {
+            svgCircle.style.strokeDashoffset = circleCircumference * ( (totalSteps - 1 - index) / (totalSteps-1) );
+        }
+
+
+        // Change background image
+        if (backgrounds[index]) {
+            mainContainer.style.backgroundImage = `url(${backgrounds[index]})`;
+        }
+
+        // Show the current user profile and hide others
+        userProfiles.forEach((profile, i) => {
+            if (i === index) {
+                profile.classList.add('active');
+                profile.style.opacity = 1;
+            } else {
+                profile.classList.remove('active');
+                profile.style.opacity = 0; // Optional: fade out inactive profiles
+            }
+        });
+        currentUserIndex = index;
+    }
+
+    stepDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const index = parseInt(dot.dataset.index);
+            updateDisplay(index);
+        });
+    });
+
+    // Initialize with the first profile
+    updateDisplay(0);
+
+</script>
+    </body>
+</html>

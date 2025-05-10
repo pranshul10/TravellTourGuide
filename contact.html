@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Mobile Tourist Guide</title>
+    <style>
+        /* --- :root variables (Copied for header and dark theme consistency) --- */
+        :root {
+            --primary-accent: #ff6700; /* Bright Orange */
+            --text-light: #f0f0f0;      /* Light text for readability on dark */
+            --text-medium: #cccccc;     /* Slightly dimmer text */
+            --text-dark-content: #2c3e50; /* Original dark text for cards */
+            --bg-dark-primary: #0a0a0a; /* Very dark primary background */
+            --bg-dark-secondary: #121212; /* Slightly lighter dark for sections */
+            --card-dark-bg: #1f1f1f;    /* Dark card background */
+            --card-dark-shadow: rgba(255, 255, 255, 0.05);
+            --font-family-sans-serif: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-family-sans-serif);
+        }
+
+        body.contact-page { /* Specific to this page for fixed header and dark theme */
+            color: var(--text-medium); /* Default text for page */
+            line-height: 1.6;
+            background-color: var(--bg-dark-primary); /* Dark page background */
+            padding-top: 70px; /* Adjust if header height changes */
+            font-family: var(--font-family-sans-serif);
+        }
+
+        /* --- Header (Copied and adapted from aboutus.html/services.html) --- */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            color: var(--text-light);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px; /* Consistent with other pages */
+            margin: 0 auto;
+            padding: 0 1.5rem; /* Consistent with other pages */
+        }
+        header h2 {
+            font-size: 1.6rem;
+            margin: 0;
+            color: var(--primary-accent);
+        }
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .nav-links a:hover,
+        .nav-links a:focus {
+            color: var(--primary-accent);
+        }
+
+        /* --- Original Styles for Contact Page Content (Adapted for Dark Theme) --- */
+        .container { /* General container for page content */
+            max-width: 1200px; /* Original max-width */
+            margin: 0 auto;
+            padding: 0 2rem; /* Original padding */
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(10, 10, 10, 0.85)), url('/api/placeholder/1200/400'); /* Darker overlay */
+            background-size: cover;
+            background-position: center;
+            color: var(--text-light); /* Use theme variable */
+            text-align: center;
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: #fff; /* Brighter white for hero title */
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+            color: var(--text-medium); /* Use theme variable */
+        }
+
+        .section {
+            padding: 5rem 0;
+            background-color: var(--bg-dark-secondary); /* Dark section bg */
+        }
+         .section:nth-child(even) { /* Alternate section background slightly */
+            background-color: var(--bg-dark-primary);
+        }
+
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            color: var(--text-light); /* Light text for title */
+            position: relative;
+        }
+        .section-title::after { /* Re-enable and style for dark theme */
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-accent); /* Orange accent line */
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+        .section-title::before { /* Keep hidden */
+            display: none !important;
+        }
+
+        .contact-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: var(--text-medium); /* Lighter text for intro */
+        }
+        .contact-intro p {
+             color: var(--text-medium);
+        }
+
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        /* Adapting cards to dark theme */
+        .contact-info,
+        .contact-form,
+        .office-card,
+        .faq-item {
+            background-color: var(--card-dark-bg); /* Dark card background */
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px var(--card-dark-shadow);
+            color: var(--text-medium); /* Default text color for card content */
+        }
+        .contact-info h3, .contact-form h3, .office-details h3, .faq-question span:first-child {
+            color: var(--text-light); /* Lighter headings inside cards */
+        }
+         .faq-question span:last-child { /* Targeting the '+' icon */
+            color: var(--primary-accent);
+        }
+        .contact-details p, .office-info div, .faq-answer p {
+            color: var(--text-medium); /* Medium text for details */
+        }
+        .office-info { /* Ensure the div text is also medium */
+            color: var(--text-medium);
+        }
+
+
+        .contact-card {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .contact-icon { /* Keep original, but adjust colors if needed for contrast */
+            width: 50px;
+            height: 50px;
+            background-color: #2a2a2a; /* Darker background for icon circle */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary-accent); /* Orange icon color */
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-light); /* Lighter label */
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #3a3a3a; /* Darker border */
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: #2c2c2c; /* Dark input background */
+            color: var(--text-light); /* Light input text */
+        }
+        .form-control::placeholder {
+            color: #777;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 2px rgba(var(--primary-accent-rgb, 255, 103, 0), 0.3); /* Orange focus glow */
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn { /* General button style for this page */
+            display: inline-block;
+            background-color: var(--primary-accent);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #e65c00; /* Darker orange */
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.25); /* Shadow for dark theme */
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-link { /* Style for social icons */
+            width: 40px;
+            height: 40px;
+            background-color: #2a2a2a; /* Darker background */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0.5rem;
+            color: var(--primary-accent); /* Orange icon */
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-accent);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+
+        .offices {
+            /* margin-top: 0rem; Remove default margin */
+            /* display: block; Default for section */
+            /* background-color: #000; Handled by general .section */
+        }
+
+        .office-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .office-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px var(--card-dark-shadow); /* Adjusted shadow */
+        }
+
+        .office-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .office-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .office-details {
+            padding: 1.5rem;
+        }
+
+        .office-info {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .office-icon { /* Using .contact-icon style now, but can specify if needed */
+             color: var(--primary-accent); /* Orange */
+        }
+
+        .faq {
+            /* background-color: #000000; Handled by .section */
+            padding: 5rem 0; /* Original padding */
+            /* margin-top: 0rem; Original */
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-question:hover {
+            background-color: #2a2a2a; /* Darker hover for FAQ */
+        }
+
+        .cta-section { /* Copied from services and adapted */
+            text-align: center;
+            padding: 5rem 1.5rem;
+            background: linear-gradient(135deg, #1c1c1c 0%, #0f0f0f 100%);
+            color: var(--text-light);
+        }
+
+        .cta-title {
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+        }
+
+        .cta-text {
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            color: var(--text-medium);
+            line-height: 1.7;
+        }
+        .cta-section .btn { /* CTA button specific styling if needed, otherwise inherits general .btn */
+            /* This uses the general .btn defined above which is now styled with orange */
+        }
+
+
+        footer {
+            background-color: #080808; /* Darkest footer */
+            color: var(--text-medium); /* Lighter text */
+            text-align: center;
+            padding: 2rem 0;
+        }
+        footer p {
+            color: var(--text-medium);
+        }
+
+
+        @media (max-width: 768px) {
+             body.contact-page {
+                padding-top: 100px; /* Increased if header stacks */
+            }
+            header {
+                padding: 0.8rem 0;
+            }
+            header .container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            header h2 {
+                font-size: 1.4rem;
+            }
+            .nav-links a {
+                margin-left: 0.8rem;
+                margin-right: 0.8rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            .cta-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="contact-page"> <!-- Added class for page-specific styling -->
+    <header>
+        <div class="container">
+            <h2>Travel Tour Guide</h2> <!-- Consistent Title -->
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="aboutus.html">About Us</a>
+                <a href="services.html">Services</a> <!-- Added Services link -->
+                <!-- <a href="contact.html">Contact</a> Current page, can be omitted or styled differently -->
+                <a href="login.html" id="navLoginLink">Login</a>
+                <a href="javascript:void(0);" id="navLogoutLink" style="display:none;" onclick="logoutUser()">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Get In Touch</h1>
+            <p>We'd love to hear from you! Reach out with your questions, feedback, or partnership inquiries</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-intro">
+                <p>Whether you have questions about our services, need technical support, or want to explore partnership opportunities, our team is here to help. Feel free to reach out through any of the following channels.</p>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h3>Email Us</h3>
+                            <p>General Inquiries: info@traveltourguide.com</p>
+                            <p>Support: support@traveltourguide.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h3>Call Us</h3>
+                            <p>Customer Support: +91 9257114335</p>
+                            <p>Business Inquiries: +91 9257114335</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <h3>Operating Hours</h3>
+                            <p>Monday - Friday: 9:00 AM - 6:00 PM IST</p>
+                            <p>Weekend Support: 10:00 AM - 4:00 PM IST</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-details">
+                            <h3>Social Media</h3>
+                            <p>Follow us for the latest updates and travel tips:</p>
+                             <div class="social-links"> <!-- Moved social links here -->
+                                <a href="#" class="social-link" aria-label="Facebook">f</a>
+                                <a href="#" class="social-link" aria-label="Twitter">t</a>
+                                <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+                                <a href="#" class="social-link" aria-label="Instagram">ig</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Removed redundant social links div from here -->
+                </div>
+
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="Pranshul Sukhwal" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="pranshul@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" id="subject" class="form-control" placeholder="Support Request">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">Your Message</label>
+                            <textarea id="message" class="form-control" placeholder="Type your message here..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section offices">
+        <div class="container">
+            <h2 class="section-title">Our Offices</h2>
+            <div class="office-cards">
+                <div class="office-card">
+                    <div class="office-image">
+                        <img src="skit.jpeg" alt="Headquarters">
+                    </div>
+                    <div class="office-details">
+                        <h3>Headquarters</h3>
+                        <div class="office-info">
+                            <div class="office-icon">📍</div>
+                            <div>SKIT College<br>Jaipur, 302017</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more office cards if needed -->
+            </div>
+        </div>
+    </section>
+
+    <section class="section faq-section"> <!-- Added faq-section class for potential specific styling -->
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How quickly can I expect a response to my inquiry?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer" style="display: none;"> <!-- Hide answers by default -->
+                        <p>We strive to respond to all inquiries within 24 hours during business days. For urgent support requests, we recommend using our live chat feature available in the mobile app.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Where can I get technical support for the app?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer" style="display: none;">
+                        <p>Technical support is available through multiple channels: in-app chat support, email at support@touristguideapp.com, or by phone during our operating hours. For the fastest resolution, please include details about your device model and operating system version.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How can I report an issue with a location or attraction information?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer" style="display: none;">
+                        <p>We appreciate your help in keeping our information accurate! You can report inaccuracies directly through the app by selecting the attraction and using the "Report Issue" feature, or by emailing content@touristguideapp.com with the specific details.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer partnership opportunities for local businesses?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer" style="display: none;">
+                        <p>Yes, we collaborate with local businesses, tour operators, and accommodation providers. For partnership inquiries, please email partnerships@touristguideapp.com with details about your business and proposed collaboration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Ready to Enhance Your Travel Experience?</h2>
+            <p class="cta-text">Book your travel today and start exploring the world with confidence!</p>
+            <a href="services.html#Price" class="btn">Book Now</a> <!-- Reusing general .btn style -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© Trave Tour Guide. All rights reserved.</p>
+            <p>Developed by Pranshul, Rai Adarsh, and Rahul</p>
+        </div>
+    </footer>
+
+    <script>
+    // Authentication State & UI for header nav
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('authToken');
+        const userName = localStorage.getItem('userName');
+        const navLoginLink = document.getElementById('navLoginLink');
+        const navLogoutLink = document.getElementById('navLogoutLink');
+
+        if (token && userName) {
+            if(navLoginLink) navLoginLink.style.display = 'none';
+            if(navLogoutLink) navLogoutLink.style.display = 'inline';
+        } else {
+            if(navLoginLink) navLoginLink.style.display = 'inline';
+            if(navLogoutLink) navLogoutLink.style.display = 'none';
+        }
+
+        // Simple FAQ Toggle
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('span:last-child');
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                    icon.textContent = '+';
+                } else {
+                    // Hide other open answers
+                    document.querySelectorAll('.faq-answer').forEach(ans => {
+                        if (ans !== answer) {
+                            ans.style.display = 'none';
+                            ans.previousElementSibling.querySelector('span:last-child').textContent = '+';
+                        }
+                    });
+                    answer.style.display = 'block';
+                    icon.textContent = '−'; // Minus sign
+                }
+            });
+        });
+    });
+
+    function logoutUser() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userName');
+        window.location.href = 'login.html'; // Redirect to login page
+    }
+    </script>
+</body>
+</html>

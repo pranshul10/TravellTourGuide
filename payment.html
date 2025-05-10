@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- Removed project.css, assuming styles are minimal or inline for this page -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" ></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script> -->
+    <!-- <link rel="stylesheet" href="animate.min.css"> -->
+    <!-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> -->
+    <!-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+   
+    <title>Payment - Travel Guide</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        .scan{
+            position: relative;
+            top: 0;
+            left: 0;
+            background: black;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; 
+            flex-direction: column; /* Align items vertically */
+        }
+        .scan h1{
+            margin: 0;
+            padding: 20px 0px; /* Reduced padding */
+            color: white;
+            text-transform: uppercase;
+            font-size: 5em; /* Adjusted size */
+            line-height: 1.0em;
+            text-align: center;
+        }
+        .scan img#img-pay{ /* Target specifically the payment QR image */
+            width: 250px; /* QR code size */
+            height: 250px;
+            padding: 20px; /* Padding around QR */
+            background-color: white; /* White background for QR code visibility */
+            border: 5px solid #333;
+            border-radius: 10px;
+            object-fit: contain; /* Ensure QR code is not stretched */
+            display: block; /* Ensure it takes its own line */
+            margin-top: 20px; /* Space above QR */
+        }
+        .pointer{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px; /* Smaller pointer */
+            height: 200px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 10;
+        }
+        .home-link-payment {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+            background-color: rgba(50,50,50,0.7);
+            padding: 10px 15px;
+            border-radius: 5px;
+            z-index: 100;
+        }
+         .home-link-payment:hover {
+            background-color: rgba(80,80,80,0.9);
+        }
+    </style>
+    </head>  
+<body>
+    <a href="index.html" class="home-link-payment"> ← Back to Home</a>
+    <section class="scan" id="sp">
+        <div class="pointer"></div>
+        <h1>Scan <br>& <br>Pay</h1>
+        <!-- The image source will be set by JavaScript. Ensure qr-code.png is in the root. -->
+        <img id="img-pay" src="" alt="Scan QR Code to Pay">
+    </section>
+
+<script type="text/javascript">
+    function setNewImage(){
+       document.getElementById("img-pay").src = "qr-code.png"; // Assuming qr-code.png is in the root
+    }
+    function setOldImage(){
+        // Keep the QR code visible once shown, or set to a placeholder if needed
+        // document.getElementById("img-pay").src = "placeholder-qr.png"; // if you have a default placeholder
+        // For simplicity, we'll just leave it if setNewImage was called.
+        // If you want it to disappear, set src to "" or a transparent pixel.
+        // For this demo, let's make it appear on mouse enter and stay.
+        // If you want it to toggle on mouse over/out, this logic would change.
+    }
+
+    // Show QR on mouse enter over the section, hide on mouse leave
+    const scanSection = document.getElementById('sp');
+    if (scanSection) {
+        scanSection.addEventListener('mouseenter', setNewImage);
+        // scanSection.addEventListener('mouseleave', setOldImage); // Uncomment if you want it to hide
+    }
+    
+    // Initial call to display if needed, or trigger on some event.
+    // For this page, it's fine to show on mouse enter.
+
+    // Pointer move effect
+    // Ensure jQuery is loaded if you keep this part. 
+    // The slim version of jQuery might not include all effects.
+    // For simplicity, if jQuery is not strictly needed, this part can be removed or rewritten in vanilla JS.
+    // Vanilla JS alternative for pointer:
+    document.addEventListener('mousemove', function(e) {
+        const pointer = document.querySelector('.pointer');
+        if (pointer) {
+            // Adjust for pointer's own size to center it on cursor
+            pointer.style.left = (e.pageX - pointer.offsetWidth / 2) + 'px';
+            pointer.style.top = (e.pageY - pointer.offsetHeight / 2) + 'px';
+        }
+    });
+</script>
+</body>
+</html>

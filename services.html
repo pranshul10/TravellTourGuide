@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Mobile Tourist Guide</title>
+    <style>
+        /* --- :root variables (Copied from aboutus.html for header consistency) --- */
+        :root {
+            --primary-accent: #ff6700; /* Bright Orange */
+            --primary-accent-rgb: 255, 103, 0; /* RGB version for box-shadow alpha */
+            --text-light: #f0f0f0;
+            --text-medium: #cccccc; /* Added for .cta-text */
+            --font-family-sans-serif: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-family-sans-serif); /* Use variable */
+        }
+
+        body.services-page { /* Specific to this page for fixed header */
+            color: #333; /* Original text color for content */
+            line-height: 1.6;
+            background-color: #000000; /* Original background */
+            padding-top: 70px; /* Adjust if header height changes, for fixed header */
+            font-family: var(--font-family-sans-serif); /* Ensure font consistency */
+        }
+
+        /* --- Header (Copied and adapted from aboutus.html) --- */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); /* Dark gradient */
+            color: var(--text-light);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            position: fixed; /* Fixed header */
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+             /* Keep original .container styles from below for content if needed,
+               but ensure header .container doesn't conflict if it has different needs */
+            max-width: 1100px; /* Copied from original for consistency within header */
+            margin: 0 auto;    /* Copied from original */
+            padding: 0 1.5rem; /* Copied from original */
+        }
+        header h2 {
+            font-size: 1.6rem;
+            margin: 0;
+            color: var(--primary-accent); /* Use accent color */
+        }
+        .nav-links a { /* This style was at the bottom, consolidated here */
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .nav-links a:hover,
+        .nav-links a:focus {
+            color: var(--primary-accent);
+        }
+
+        /* --- Original Styles for Services Page Content (Below Header) --- */
+        .container { /* General container for page content */
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        .section {
+            background-color: black;
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: #2a4b61; /* Original accent for this page's content */
+            margin: 1rem auto 0;
+        }
+
+        .services-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: #ccc; /* Adjusted for dark bg */
+        }
+        .services-intro p { /* Make sure intro text is visible */
+            color: #ccc;
+        }
+
+
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background-color: #1f1f1f; /* Darker card for dark theme */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.03); /* Lighter shadow for dark */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #ccc; /* Default text color for card content */
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.07);
+        }
+
+        .service-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover .service-image img {
+            transform: scale(1.1);
+        }
+
+        .service-content {
+            padding: 1.5rem;
+        }
+
+        .service-content h3 {
+            color: var(--primary-accent); /* Use accent for heading */
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        .service-content p {
+            color: #bbb; /* Lighter text for paragraphs in cards */
+        }
+
+        .packages {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .package-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .package-tab {
+            padding: 0.8rem 1.5rem;
+            background-color: #2a2a2a; /* Darker tabs */
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #ccc; /* Light text for tabs */
+        }
+
+        .package-tab.active {
+            background-color: var(--primary-accent);
+            color: white;
+        }
+
+        .package-tab:hover:not(.active) {
+            background-color: #3f3f3f;
+        }
+
+        .package-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .package-card {
+            background-color: #1f1f1f; /* Darker card */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.03);
+            transition: transform 0.3s ease;
+            position: relative;
+            color: #ccc; /* Default text for package cards */
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .package-popular {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #e74c3c; /* Original popular tag color */
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .package-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, #3498db, #2c3e50); /* Original header gradient */
+            color: white;
+            text-align: center;
+        }
+        .package-header[style*="8e44ad"] { /* Keep specific inline style for popular */
+             background: linear-gradient(135deg, #3498db, #8e44ad) !important;
+        }
+        .package-header[style*="2980b9"] { /* Keep specific inline style */
+            background: linear-gradient(135deg, #2c3e50, #2980b9) !important;
+        }
+
+
+        .package-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .package-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .package-duration {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            color: white;
+        }
+
+        .package-features {
+            padding: 2rem;
+        }
+        .package-features p, .package-features div { /* Ensure text inside features is visible */
+            color: #bbb;
+        }
+
+        .package-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon { /* General feature icon style */
+            margin-right: 1rem;
+            color: var(--primary-accent); /* Use accent color */
+            font-size: 1.2rem;
+        }
+        .package-feature .feature-icon { /* Specific for package feature checkmark */
+            color: var(--primary-accent); /* Make checkmark orange */
+        }
+
+
+        .package-cta {
+            padding: 0 2rem 2rem;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-accent); /* Use accent color */
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #e65c00; /* Darker orange on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Shadow adjusted for dark */
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-accent);
+            color: var(--primary-accent);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-accent);
+            color: white;
+        }
+
+        .testimonials {
+            background-color: #000000;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background-color: #1f1f1f; /* Darker card */
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.03);
+            text-align: left;
+            color: #ccc;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+            color: #bbb;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            font-size: 4rem;
+            color: #3a3a3a; /* Darker quote for dark bg */
+            position: absolute;
+            top: -20px;
+            left: -15px;
+            z-index: 0;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin-bottom: 0.2rem;
+            color: var(--primary-accent); /* Use accent */
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: #aaa; /* Lighter subtext */
+        }
+
+        .faq {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            background-color: #1f1f1f; /* Darker FAQ item */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.03);
+            color: #ccc;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            color: #ddd; /* Lighter question text */
+        }
+         .faq-question span:last-child { /* Targeting the '+' icon */
+            color: var(--primary-accent);
+        }
+
+        .faq-question:hover {
+            background-color: #2a2a2a;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #bbb; /* Lighter answer text */
+        }
+        .faq-answer p {
+            color: #bbb;
+        }
+
+.cta-section {
+    text-align: center;
+    padding: 5rem 1.5rem;
+    background: linear-gradient(135deg, #1c1c1c 0%, #0f0f0f 100%); /* Dark gradient */
+    color: var(--text-light);
+}
+
+.cta-title {
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: var(--primary-accent); /* Orange title */
+}
+
+.cta-text {
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+    color: var(--text-medium);
+    line-height: 1.7;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem; /* Space between buttons */
+    flex-wrap: wrap;
+}
+
+/* Base style for ALL buttons within .cta-buttons AND primary button style */
+.cta-buttons .cta-btn {
+    display: inline-block; /* Crucial for <a> to behave like a button with padding */
+    padding: 0.85rem 2.1rem; /* Slightly adjusted padding */
+    border-radius: 50px; /* Pill shape */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    min-width: 170px; /* Ensure buttons have a decent minimum width */
+    cursor: pointer;
+    transition: all 0.25s ease-out;
+
+    /* Primary button appearance (solid orange) */
+    background-color: var(--primary-accent);
+    color: white;
+    border: 2px solid var(--primary-accent); /* Border color matches background */
+}
+
+/* Hover and focus for the PRIMARY button (solid orange) */
+/* We use :not(.cta-btn-outline) to ensure these specific hover styles don't apply to the outline button */
+.cta-buttons .cta-btn:not(.cta-btn-outline):hover,
+.cta-buttons .cta-btn:not(.cta-btn-outline):focus {
+    background-color: #e65c00; /* Darker orange */
+    border-color: #e65c00;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Styles specific to the OUTLINE button variant */
+.cta-buttons .cta-btn-outline {
+    background-color: transparent; /* Override the primary button's background */
+    color: var(--primary-accent);   /* Text color is orange */
+    border: 2px solid var(--primary-accent); /* Orange border */
+}
+
+/* Hover and focus for the OUTLINE button */
+.cta-buttons .cta-btn-outline:hover,
+.cta-buttons .cta-btn-outline:focus {
+    background-color: var(--primary-accent); /* Fill with orange on hover */
+    color: white;                           /* Text becomes white */
+    border-color: var(--primary-accent);    /* Border remains orange */
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(var(--primary-accent-rgb), 0.3); /* Orange glow effect */
+}
+        footer {
+            background-color: #080808; /* Darkest footer */
+            color: #aaa; /* Lighter footer text */
+            text-align: center;
+            padding: 2rem 0;
+        }
+        footer p {
+             color: #aaa;
+        }
+
+
+        @media (max-width: 768px) {
+            body.services-page {
+                padding-top: 100px; /* Increased padding if header stacks */
+            }
+            header {
+                padding: 0.8rem 0;
+            }
+            header .container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            header h2 {
+                font-size: 1.4rem;
+            }
+            .nav-links a {
+                margin-left: 0.8rem;
+                margin-right: 0.8rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                color: #ffffff;
+                font-size: 1.8rem;
+            }
+
+            .cta-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="services-page"> <!-- Added class for page-specific body styling -->
+    <header>
+        <div class="container">
+            <h2>Travel Tour Guide</h2> <!-- Changed title to match nav from About Us -->
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="aboutus.html">About Us</a> <!-- Corrected link -->
+                <a href="contact.html">Contact</a>
+                <a href="login.html" id="navLoginLink">Login</a>
+                <a href="javascript:void(0);" id="navLogoutLink" style="display:none;" onclick="logoutUser()">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Rest of your Services Page Content -->
+    <section class="hero">
+        <div class="container">
+            <h1>Our Services & Packages</h1>
+            <p>Discover the perfect travel companion for your adventures with our comprehensive service offerings</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-intro">
+                <p>Our Mobile Tourist Guide System is designed to enhance your travel experience with a range of innovative services. From personalized recommendations to real-time information, we've got everything you need for a seamless journey.</p>
+            </div>
+
+            <div class="service-cards">
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="pack-si.jpg" alt="Location-Based Recommendations">
+                    </div>
+                    <div class="service-content">
+                        <h3>Location-Based Recommendations</h3>
+                        <p>Receive personalized suggestions for attractions, restaurants, and activities based on your current location. Our intelligent system learns your preferences to deliver the most relevant recommendations.</p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="sea-link.jpg" alt="Weather Forecasting">
+                    </div>
+                    <div class="service-content">
+                        <h3>Weather Forecasting</h3>
+                        <p>Stay prepared with accurate weather forecasts for your destination. Plan outdoor activities with confidence by knowing the weather conditions in advance.</p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="dal-lake-1.jpg" alt="Distance Calculator">
+                    </div>
+                    <div class="service-content">
+                        <h3>Distance Calculator</h3>
+                        <p>Calculate precise distances between multiple locations to optimize your travel routes. Save time and energy by planning the most efficient itinerary for your trip.</p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="img-4.jpg" alt="Rich Media Content">
+                    </div>
+                    <div class="service-content">
+                        <h3>Rich Media Content</h3>
+                        <p>Explore destinations through high-quality videos, images, and detailed descriptions. Get a virtual preview of attractions before visiting them in person.</p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="himalyas.jpg" alt="Interactive Maps">
+                    </div>
+                    <div class="service-content">
+                        <h3>Interactive Maps</h3>
+                        <p>Navigate unfamiliar destinations with ease using our interactive maps. Find points of interest, public transportation options, and emergency services at your fingertips.</p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="img-1.jpg" alt="Trip Planning">
+                    </div>
+                    <div class="service-content">
+                        <h3>Trip Planning</h3>
+                        <p>Create customized itineraries for your travels with our intuitive trip planning tools. Organize your daily activities, set reminders, and share your plans with travel companions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: #000000;">
+        <div class="container">
+            <h2 class="section-title" id="Price">Our Packages</h2>
+            <div class="packages">
+                <div class="package-tabs">
+                    <button class="package-tab active">All Packages</button>
+                    <button class="package-tab">Solo Traveler</button>
+                    <button class="package-tab">Family</button>
+                    <button class="package-tab">Business</button>
+                </div>
+
+                <div class="package-cards">
+                    <div class="package-card">
+                        <div class="package-header">
+                            <h3 class="package-name">Basic Explorer</h3>
+                            <div class="package-price">Free</div>
+                            <div class="package-duration">Unlimited Access</div>
+                        </div>
+                        <div class="package-features">
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Location-based recommendations</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Basic weather forecasts</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Distance calculator</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Limited media content</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Standard support</div>
+                            </div>
+                        </div>
+                        <div class="package-cta">
+                            <a href="#" class="btn">Get Started</a>
+                        </div>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-popular">Most Popular</div>
+                        <div class="package-header" style="background: linear-gradient(135deg, #3498db, #8e44ad);">
+                            <h3 class="package-name">Premium Traveler</h3>
+                            <div class="package-price">₹499.99</div>
+                            <div class="package-duration">Monthly</div>
+                        </div>
+                        <div class="package-features">
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>All Basic Explorer features</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Detailed weather reports</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Unlimited HD videos & photos</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Offline maps & content</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Priority support</div>
+                            </div>
+                        </div>
+                        <div class="package-cta">
+                            <a href="#" class="btn">Subscribe Now</a>
+                        </div>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-header" style="background: linear-gradient(135deg, #2c3e50, #2980b9);">
+                            <h3 class="package-name">Ultimate Adventure</h3>
+                            <div class="package-price">₹4999.99</div>
+                            <div class="package-duration">Yearly</div>
+                        </div>
+                        <div class="package-features">
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>All Premium Traveler features</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Family account (up to 5 users)</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>AR navigation features</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>Custom trip planning</div>
+                            </div>
+                            <div class="package-feature">
+                                <div class="feature-icon">✓</div>
+                                <div>24/7 premium support</div>
+                            </div>
+                        </div>
+                        <div class="package-cta">
+                            <a href="#" class="btn">Get Ultimate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Special Packages</h2>
+            <div class="services-intro">
+                <p>We understand that different travelers have different needs. Explore our specialized packages designed for specific travel scenarios.</p>
+            </div>
+
+            <div class="service-cards">
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="solo.jpg" alt="Solo Traveler Package">
+                    </div>
+                    <div class="service-content">
+                        <h3>Solo Traveler Package</h3>
+                        <p><strong>₹350/month</strong></p>
+                        <p>Perfect for individual explorers who want to discover new places safely and efficiently. Includes safety alerts, solo-friendly venue recommendations, and community connection features.</p>
+                        <br>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="family.jpg" alt="Family Adventure Package">
+                    </div>
+                    <div class="service-content">
+                        <h3>Family Adventure Package</h3>
+                        <p><strong>₹799/month</strong></p>
+                        <p>Designed for families traveling together. Includes family-friendly attraction recommendations, kid-focused content, multiple user profiles, and location sharing among family members.</p>
+                        <br>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="business.jpg" alt="Business Traveler Package">
+                    </div>
+                    <div class="service-content">
+                        <h3>Business Traveler Package</h3>
+                        <p><strong>₹999/month</strong></p>
+                        <p>Optimized for professionals on the go. Includes proximity to coworking spaces, business centers, networking events, expense tracking, and integration with calendar apps.</p>
+                        <br>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Users Say</h2>
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        <p>This website completely transformed my solo trip to Europe. The distance calculator helped me manage my travel and the recommendations were spot-on for my interests.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">
+                            <img src="Ashu.jpg" alt="Ashutosh Vijay">
+                        </div>
+                        <div class="author-info">
+                            <h4>Ashutosh Vijay</h4>
+                            <p>Solo Traveler</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        <p>As a family of five, planning trips used to be chaotic. This app helps us organize everything in one place and find kid-friendly activities that everyone enjoys.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">
+                            <img src="Aryan.jpg" alt="Aryan Gupta">
+                        </div>
+                        <div class="author-info">
+                            <h4>Aryan Gupta</h4>
+                            <p>Family Traveler</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        <p>The business traveler package is worth every penny. It helps me balance work requirements with exploring new cities during my limited free time.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">
+                            <img src="Tarun.jpg" alt="Tarun Kumar">
+                        </div>
+                        <div class="author-info">
+                            <h4>Tarun Kumar</h4>
+                            <p>Business Traveler</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I use the basic features as a trial?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer verious offers like Location based recommendations and distance calculator for free.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How accurate is the weather forecasting feature?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our weather forecasting service aggregates data from multiple reliable meteorological sources to provide the most accurate predictions possible. Premium and Ultimate subscribers receive hourly updates and detailed forecasts for up to 10 days.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I share my itinerary with friends?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! You can share your itenary with your friends</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How often is the content updated?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our database is continuously updated with the latest information about attractions, restaurants, events, and accommodations. User-generated content and reviews are moderated and added in real-time.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I upgrade or downgrade my subscription at any time?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can change your subscription plan at any time. When upgrading, you'll only pay the prorated difference. When downgrading, the change will take effect at the end of your current billing cycle.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Ready to Transform Your Travel Experience?</h2>
+            <p class="cta-text">Join thousands of satisfied travelers who are exploring the world with confidence and ease using our Travel Tour Guide.</p>
+            <div class="cta-buttons">
+                <a href="payment.html" class="cta-btn">Book Now</a>
+                <a href="#Price" class="cta-btn cta-btn-outline">See Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Travel Tour Guide. All rights reserved.</p>
+            <p>Developed by Pranshul, Ashlesh, and Rahul</p>
+        </div>
+    </footer>
+
+    <script>
+    // Authentication State & UI for header nav
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('authToken');
+        const userName = localStorage.getItem('userName');
+        const navLoginLink = document.getElementById('navLoginLink');
+        const navLogoutLink = document.getElementById('navLogoutLink');
+
+        if (token && userName) {
+            if(navLoginLink) navLoginLink.style.display = 'none';
+            if(navLogoutLink) navLogoutLink.style.display = 'inline';
+        } else {
+            if(navLoginLink) navLoginLink.style.display = 'inline';
+            if(navLogoutLink) navLogoutLink.style.display = 'none';
+        }
+
+        // Simple FAQ Toggle
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('span:last-child');
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                    icon.textContent = '+';
+                } else {
+                    answer.style.display = 'block';
+                    icon.textContent = '−'; // Minus sign
+                }
+            });
+        });
+
+        // Simple Package Tab Functionality (Example)
+        const packageTabs = document.querySelectorAll('.package-tab');
+        packageTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                packageTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // Add logic here to filter/show package cards based on the active tab
+                // For now, it just changes the active tab style
+                console.log(tab.textContent + " tab clicked.");
+            });
+        });
+
+    });
+
+    function logoutUser() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userName');
+        window.location.href = 'login.html'; // Redirect to login page
+    }
+    </script>
+</body>
+</html>
